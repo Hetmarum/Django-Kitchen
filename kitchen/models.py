@@ -24,7 +24,7 @@ class DishType(models.Model):
         ordering = ("name",)
 
     def __str__(self):
-        return self.name
+        return f"Dish type: {self.name}"
 
 
 class Dish(models.Model):
@@ -39,3 +39,6 @@ class Dish(models.Model):
 
     def __str__(self):
         return f"{self.name} {self.dish_type} Price: {self.price}"
+
+    def get_absolute_url(self):
+        return reverse("kitchen:dish-detail", args=[str(self.id)])

@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+{% load crispy_forms_filters %}
+
+{% block content %}
+  <h1>Dish List <a class="btn btn-primary" style="float: right" href="{% url 'kitchen:dish-create' %}">+</a></h1>
+  {% if dish_list %}
+    <table class="table">
+      <tr>
+        <th>ID</th>
+        <th>Name</th>
+        <th>Price</th>
+        <th>Dish Type</th>
+      </tr>
+      {% for dish in dish_list %}
+        <tr>
+          <td>
+            <a href="{{ dish.get_absolute_url }}">{{ dish.id }}</a>
+          </td>
+          <td>
+            {{ dish.name }}
+          </td>
+          <td>
+            {{ dish.price }}
+          </td>
+          <td>
+            {{ dish.dish_type }}
+          </td>
+        </tr>
+      {% endfor %}
+    </table>
+  {% endif %}
+{% endblock %}

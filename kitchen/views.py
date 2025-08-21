@@ -2,7 +2,7 @@ from django.urls import reverse_lazy
 from django.views import generic
 from django.views.generic import TemplateView
 
-from kitchen.forms import CookCreationForm
+from kitchen.forms import CookCreationForm, DishForm
 from kitchen.models import Cook, Dish, DishType
 
 
@@ -72,6 +72,35 @@ class DishTypeDeleteView(generic.DeleteView):
     model = DishType
     template_name = "kitchen/dish_type_confirm_delete.html"
     success_url = reverse_lazy("kitchen:dish_type-list")
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["previous_url"] = self.request.META.get("HTTP_REFERER")
+        return context
+
+
+class DishListView(generic.ListView):
+    model = Dish
+
+
+class DishDetailView(generic.DetailView):
+    model = Dish
+
+
+class DishCreateView(generic.CreateView):
+    model = Dish
+    fields = "__all__"
+
+
+class DishUpdateView(generic.UpdateView):
+    model = Dish
+    form_class = DishForm
+
+
+class DishDeleteView(generic.DeleteView):
+    model = Dish
+    template_name = "kitchen/dish_confirm_delete.html"
+    success_url = reverse_lazy("kitchen:dish-list")
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
