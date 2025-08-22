@@ -33,8 +33,10 @@ class CookCreateView(generic.CreateView):
 class CookUpdateView(generic.UpdateView):
     model = Cook
     fields = ["username", "first_name", "last_name", "email", "years_of_experience", "is_active"]
-    success_url = reverse_lazy("kitchen:cook-detail")
     template_name = "kitchen/cook_form.html"
+
+    def get_success_url(self):
+        return reverse_lazy("kitchen:cook-detail", kwargs={"pk": self.object.pk})
 
 
 class CookDeleteView(generic.DeleteView):
