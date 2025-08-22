@@ -32,7 +32,14 @@ class CookCreateView(generic.CreateView):
 
 class CookUpdateView(generic.UpdateView):
     model = Cook
-    fields = ["username", "first_name", "last_name", "email", "years_of_experience", "is_active"]
+    fields = [
+        "username",
+        "first_name",
+        "last_name",
+        "email",
+        "years_of_experience",
+        "is_active",
+    ]
     template_name = "kitchen/cook_form.html"
 
     def get_success_url(self):

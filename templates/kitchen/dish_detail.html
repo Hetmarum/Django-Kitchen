@@ -4,8 +4,9 @@
   <h1>Name: {{ dish.name }}
     <a class="btn btn-secondary" style="float: right" href="{% url 'kitchen:dish-update' pk=dish.id %}">Edit</a>
     <a class="btn btn-danger" style="float: right" href="{% url 'kitchen:dish-delete' pk=dish.id %}">Delete</a></h1>
-  <p><strong>Price: </strong>{{ dish.price }}</p>
-  <p><strong>Dish type: </strong>{{ dish.dish_type }}</p>
+  <p><strong>Price: </strong>{{ dish.price }}$</p>
+  <p><strong>{{ dish.dish_type }}</strong></p>
+  <p><strong>Ingredients: </strong></p>
   <div class="ml-3">
     <h3>Cooks:</h3>
     {% for cook in dish.cooks.all %}
