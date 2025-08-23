@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     "crispy_bootstrap4",
     "accounts",
     "kitchen",
+    "storages",
 ]
 
 MIDDLEWARE = [
@@ -124,6 +125,10 @@ USE_TZ = True
 
 STATIC_URL = "static/"
 
+STATICFILES_DIRS = [
+    BASE_DIR / "static",
+]
+
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
 
@@ -132,3 +137,27 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 AUTH_USER_MODEL = "kitchen.Cook"
 
 LOGIN_REDIRECT_URL = "/"
+
+
+MEDIA_URL = "/media/"
+MEDIA_ROOT = BASE_DIR / "media"
+
+DEFAULT_FILE_STORAGE = "storages.backends.dropbox.DropBoxStorage"
+
+CRISPY_TEMPLATE_PACK = "bootstrap4"
+
+STORAGES = {
+    "default": {
+        "BACKEND": "base.storages.WindowsCompatibleDropboxStorage",
+        "OPTIONS": {
+            "oauth2_access_token": os.environ.get("OAUTH2_ACCESS_TOKEN"),
+            "oauth2_refresh_token": os.environ.get("OAUTH2_REFRESH_TOKEN"),
+            "app_secret": os.environ.get("APP_SECRET"),
+            "app_key": os.environ.get("APP_KEY"),
+            "root_path": "media/",
+        },
+    },
+    "staticfiles": {
+        "BACKEND": "django.contrib.staticfiles.storage.StaticFilesStorage",
+    },
+}

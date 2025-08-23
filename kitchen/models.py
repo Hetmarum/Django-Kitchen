@@ -35,6 +35,7 @@ class Dish(models.Model):
         DishType, on_delete=models.CASCADE, related_name="dishes"
     )
     cooks = models.ManyToManyField(settings.AUTH_USER_MODEL, related_name="dishes")
+    picture = models.ImageField(upload_to="dishes/", null=True, blank=True)
 
     class Meta:
         ordering = ("name",)

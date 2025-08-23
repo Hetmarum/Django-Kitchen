@@ -7,6 +7,12 @@
   <p><strong>Price: </strong>{{ dish.price }}$</p>
   <p><strong>{{ dish.dish_type }}</strong></p>
   <p><strong>Ingredients: </strong></p>
+  {% if dish.picture %}
+    <p><strong>Picture:</strong></p>
+    <p><img src="{{ dish.picture.url }}" alt="{{ dish.name }}" style="max-width:300px; height:auto;"></p>
+  {% else %}
+    <p class="text-muted">No picture available</p>
+  {% endif %}
   <div class="ml-3">
     <h3>Cooks:</h3>
     {% for cook in dish.cooks.all %}
