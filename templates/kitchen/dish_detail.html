@@ -7,6 +7,13 @@
   <p><strong>Price: </strong>{{ dish.price }}$</p>
   <p><strong>{{ dish.dish_type }}</strong></p>
   <p><strong>Description:</strong> {{ dish.description }}</p>
+  <p><strong>Ingredients:</strong>
+  {% for ingredient in dish.ingredients.all %}
+    {{ ingredient.name }},
+  {% empty %}
+    No ingredients
+  {% endfor %}
+</p>
   {% if dish.picture %}
     <p><strong>Picture:</strong></p>
     <p><img src="{{ dish.picture.url }}" alt="{{ dish.name }}" style="max-width:300px; height:auto;"></p>

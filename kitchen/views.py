@@ -4,7 +4,7 @@ from django.views import generic
 from django.views.generic import TemplateView
 
 from kitchen.forms import CookCreationForm, DishForm
-from kitchen.models import Cook, Dish, DishType
+from kitchen.models import Cook, Dish, DishType, Ingredient
 
 
 class IndexView(LoginRequiredMixin, TemplateView):
@@ -111,6 +111,37 @@ class DishDeleteView(LoginRequiredMixin, generic.DeleteView):
     model = Dish
     template_name = "kitchen/dish_confirm_delete.html"
     success_url = reverse_lazy("kitchen:dish-list")
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["previous_url"] = self.request.META.get("HTTP_REFERER")
+        return context
+
+
+class IngredientListView(LoginRequiredMixin, generic.ListView):
+    model = Ingredient
+    template_name = "kitchen/ingredient_list.html"
+    context_object_name = "ingredient_list"
+
+
+class IngredientCreateView(LoginRequiredMixin, generic.CreateView):
+    model = Ingredient
+    fields = "__all__"
+    success_url = reverse_lazy("kitchen:ingredient-list")
+    template_name = "kitchen/ingredient_type_form.html"
+
+
+class IngredientUpdateView(LoginRequiredMixin, generic.UpdateView):
+    model = Ingredient
+    fields = "__all__"
+    success_url = reverse_lazy("kitchen:ingredient-list")
+    template_name = "kitchen/ingredient_type_form.html"
+
+
+class IngredientDeleteView(LoginRequiredMixin, generic.DeleteView):
+    model = Ingredient
+    template_name = "kitchen/ingredient_confirm_delete.html"
+    success_url = reverse_lazy("kitchen:ingredient-list")
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)

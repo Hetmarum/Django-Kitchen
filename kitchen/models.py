@@ -27,6 +27,16 @@ class DishType(models.Model):
         return f"Dish type: {self.name}"
 
 
+class Ingredient(models.Model):
+    name = models.CharField(max_length=63, unique=True)
+
+    class Meta:
+        ordering = ("name",)
+
+    def __str__(self):
+        return self.name
+
+
 class Dish(models.Model):
     name = models.CharField(max_length=63, unique=True)
     description = models.TextField(blank=True)
@@ -35,6 +45,7 @@ class Dish(models.Model):
         DishType, on_delete=models.CASCADE, related_name="dishes"
     )
     cooks = models.ManyToManyField(settings.AUTH_USER_MODEL, related_name="dishes")
+    ingredients = models.ManyToManyField(Ingredient, related_name="dishes")
     picture = models.ImageField(null=True, blank=True)
 
     class Meta:
