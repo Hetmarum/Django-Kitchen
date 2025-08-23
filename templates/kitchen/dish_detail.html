@@ -6,7 +6,7 @@
     <a class="btn btn-danger" style="float: right" href="{% url 'kitchen:dish-delete' pk=dish.id %}">Delete</a></h1>
   <p><strong>Price: </strong>{{ dish.price }}$</p>
   <p><strong>{{ dish.dish_type }}</strong></p>
-  <p><strong>Ingredients: </strong></p>
+  <p><strong>Description:</strong> {{ dish.description }}</p>
   {% if dish.picture %}
     <p><strong>Picture:</strong></p>
     <p><img src="{{ dish.picture.url }}" alt="{{ dish.name }}" style="max-width:300px; height:auto;"></p>
