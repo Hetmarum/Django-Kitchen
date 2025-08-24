@@ -9,3 +9,11 @@
     <input class="btn btn-primary" type="submit" value="Submit">
   </form>
 {% endblock %}
+
+{% block scripts %}
+  <script>
+    $("#id_dish_type").select2();
+    $("#id_cooks").select2();
+    $("#id_ingredients").select2();
+  </script>
+{% endblock %}
