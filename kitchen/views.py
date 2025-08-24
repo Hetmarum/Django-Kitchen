@@ -3,7 +3,7 @@ from django.urls import reverse_lazy
 from django.views import generic
 from django.views.generic import TemplateView
 
-from kitchen.forms import CookCreationForm, DishForm, IngredientSearchForm
+from kitchen.forms import CookCreationForm, DishForm, IngredientSearchForm, DishSearchForm, CookSearchForm
 from kitchen.models import Cook, Dish, DishType, Ingredient
 
 
@@ -21,6 +21,24 @@ class IndexView(LoginRequiredMixin, TemplateView):
 class CookListView(LoginRequiredMixin, generic.ListView):
     model = Cook
     paginate_by = 10
+
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = super().get_context_data(**kwargs)
+        username = self.request.GET.get("username", "")
+        context["search_form"] = CookSearchForm(
+            initial={"title": username}
+        )
+        return context
+
+    def get_queryset(self):
+        queryset = Cook.objects.all()
+        form = CookSearchForm(self.request.GET)
+        if form.is_valid():
+            search_term = form.cleaned_data["title"]
+            if search_term:
+                queryset = queryset.filter(username__icontains=search_term)
+        return queryset
+
 
 class CookDetailView(LoginRequiredMixin, generic.DetailView):
     model = Cook
@@ -92,6 +110,23 @@ class DishTypeDeleteView(LoginRequiredMixin, generic.DeleteView):
 class DishListView(LoginRequiredMixin, generic.ListView):
     model = Dish
     paginate_by = 10
+
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = super().get_context_data(**kwargs)
+        name = self.request.GET.get("name", "")
+        context["search_form"] = DishSearchForm(
+            initial={"title": name}
+        )
+        return context
+
+    def get_queryset(self):
+        queryset = Dish.objects.all()
+        form = DishSearchForm(self.request.GET)
+        if form.is_valid():
+            search_term = form.cleaned_data["title"]
+            if search_term:
+                queryset = queryset.filter(name__icontains=search_term)
+        return queryset
 
 
 class DishDetailView(LoginRequiredMixin, generic.DetailView):

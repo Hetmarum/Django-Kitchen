@@ -7,7 +7,10 @@
         <h1>Dish List</h1>
         <a class="btn btn-primary btn-lg" href="{% url 'kitchen:dish-create' %}">Add dish</a>
     </div>
-
+    <form method="get" action="" class="form-inline">
+      {{ search_form|crispy }}
+      <button type="submit" class="btn-secondary">Submit</button>
+    </form>
     <div class="row row-cols-1 row-cols-md-3 g-4">
         {% for dish in dish_list %}
         <div class="col">
