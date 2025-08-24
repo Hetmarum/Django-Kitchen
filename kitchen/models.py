@@ -3,6 +3,8 @@ from django.conf import settings
 from django.db import models
 from django.urls import reverse
 
+from kitchen.utils import resize_image
+
 
 class Cook(AbstractUser):
     years_of_experience = models.PositiveIntegerField(default=0)
@@ -58,3 +60,11 @@ class Dish(models.Model):
 
     def get_absolute_url(self):
         return reverse("kitchen:dish-detail", args=[str(self.id)])
+
+    def save(self, *args, **kwargs):
+        if self.picture and not kwargs.get("raw", False):
+
+            resized = resize_image(self.picture, size=(800, 800), quality=85)
+            self.picture.save(self.picture.name, resized, save=False)
+
+        super().save(*args, **kwargs)
