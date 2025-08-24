@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 
 {% block content %}
-  <h1>Dish Type List <a class="btn btn-primary" style="float: right" href="{% url 'kitchen:dish_type-create' %}">+</a></h1>
+  <h1>Dish Type List <a class="btn btn-primary" style="float: right" href="{% url 'kitchen:dish_type-create' %}">Add new dish type</a></h1>
 
   {% if dish_type_list %}
     <table class="table">

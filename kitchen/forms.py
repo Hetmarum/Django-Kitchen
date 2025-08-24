@@ -19,3 +19,11 @@ class DishForm(forms.ModelForm):
     class Meta:
         model = Dish
         fields = "__all__"
+
+class IngredientSearchForm(forms.Form):
+    title = forms.CharField(
+        max_length=255,
+        required=False,
+        label="",
+        widget=forms.TextInput(attrs={"placeholder": "Search by name"}),
+    )
