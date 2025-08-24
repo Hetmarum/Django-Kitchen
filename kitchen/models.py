@@ -45,8 +45,7 @@ class Dish(models.Model):
         DishType, on_delete=models.CASCADE, related_name="dishes"
     )
     cooks = models.ManyToManyField(
-        settings.AUTH_USER_MODEL,
-        related_name="dishes"
+        settings.AUTH_USER_MODEL, related_name="dishes"
     )
     ingredients = models.ManyToManyField(Ingredient, related_name="dishes")
     picture = models.ImageField(null=True, blank=True)
