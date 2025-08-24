@@ -24,7 +24,7 @@ class DishType(models.Model):
         ordering = ("name",)
 
     def __str__(self):
-        return f"Dish type: {self.name}"
+        return self.name
 
 
 class Ingredient(models.Model):
