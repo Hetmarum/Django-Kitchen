@@ -8,13 +8,14 @@
     <h3>Dishes:</h3>
     {% for dish in cook.dishes.all %}
       <hr>
+      <p><strong>Name: </strong>{{ dish.name }}</p>
+      <p><strong>Dish type: </strong>{{ dish.dish_type }}</p>
       <a href="{{ dish.get_absolute_url }}" class="btn btn-sm btn-outline-primary">View</a>
-      <p><strong>Name: {{ dish.name }}</strong></p>
-      <p><strong>{{ dish.dish_type }}</strong></p>
       {% empty %}
         <p>No dishes</p>
     {% endfor %}
   </div>
+    <br>
     <a class="btn btn-primary" href="{% url 'kitchen:cook-update' pk=cook.id %}">Update</a>
     <a class="btn btn-danger" href="{% url 'kitchen:cook-delete' pk=cook.id %}">Delete</a>
 {% endblock %}

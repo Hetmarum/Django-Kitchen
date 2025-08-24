@@ -24,9 +24,9 @@
     <h3>Cooks:</h3>
     {% for cook in dish.cooks.all %}
       <hr>
+      <p><strong>Full name: </strong>{{ cook.first_name }} {{ cook.last_name }}<p>
+      <p><strong>Years of experience: </strong>{{ cook.years_of_experience }}</p>
       <a href="{{ cook.get_absolute_url }}" class="btn btn-sm btn-outline-primary">View</a>
-      <p>{{ cook.first_name }} {{ cook.last_name }}<p>
-      <p>Years of experience: {{ cook.years_of_experience }}</p>
       {% empty %}
         <p>No cooks!</p>
     {% endfor %}

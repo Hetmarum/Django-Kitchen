@@ -15,7 +15,7 @@
         <option value="price" {% if current_order == "price" %}selected{% endif %}>Price</option>
         <option value="dish_type" {% if current_order == "dish_type" %}selected{% endif %}>Dish Type</option>
       </select>
-      <button type="submit" class="btn btn-secondary ml-2">Apply</button>
+      <button type="submit" class="btn btn-secondary ml-2">Search</button>
     </form>
     <div class="row row-cols-1 row-cols-md-3 g-4">
       {% for dish in dish_list %}
