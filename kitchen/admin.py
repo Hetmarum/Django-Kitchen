@@ -38,7 +38,10 @@ class DishAdmin(admin.ModelAdmin):
 
 
 admin.site.register(DishType)
+
+
 class DishTypeAdmin(admin.ModelAdmin):
     search_fields = ["name"]
+
 
 admin.site.register(Ingredient)

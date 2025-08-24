@@ -2,39 +2,47 @@
 {% load crispy_forms_filters %}
 
 {% block content %}
-<div class="container my-5">
+  <div class="container my-5">
     <div class="d-flex justify-content-between align-items-center mb-4">
-        <h1>Dish List</h1>
-        <a class="btn btn-primary btn-lg" href="{% url 'kitchen:dish-create' %}">Add dish</a>
+      <h1>Dish List</h1>
+      <a class="btn btn-primary btn-lg" href="{% url 'kitchen:dish-create' %}">Add dish</a>
     </div>
-    <form method="get" action="" class="form-inline">
+    <form method="get" action="" class="form-inline mb-3">
       {{ search_form|crispy }}
-      <button type="submit" class="btn-secondary">Submit</button>
+      <select name="order_by" class="form-control ml-2">
+        <option value="">-- Sort by --</option>
+        <option value="name" {% if current_order == "name" %}selected{% endif %}>Name</option>
+        <option value="price" {% if current_order == "price" %}selected{% endif %}>Price</option>
+        <option value="dish_type" {% if current_order == "dish_type" %}selected{% endif %}>Dish Type</option>
+      </select>
+      <button type="submit" class="btn btn-secondary ml-2">Apply</button>
     </form>
     <div class="row row-cols-1 row-cols-md-3 g-4">
-        {% for dish in dish_list %}
+      {% for dish in dish_list %}
         <div class="col">
-            <div class="card h-100 shadow-sm">
-                {% if dish.picture %}
-                <img src="{{ dish.picture.url }}" class="card-img-top" alt="{{ dish.name }}" style="height: 200px; object-fit: cover;">
-                {% else %}
-                <div class="card-img-top bg-secondary text-white d-flex align-items-center justify-content-center" style="height: 200px;">
-                    No Picture
-                </div>
-                {% endif %}
-                <div class="card-body d-flex flex-column">
-                    <h5 class="card-title">{{ dish.name }}</h5>
-                    <p class="card-text mb-2"><strong>Price:</strong> {{ dish.price }}</p>
-                    <p class="card-text mb-3"><strong>Dish Type:</strong> {{ dish.dish_type }}</p>
-                    <p class="card-text mb-3"><strong>Description:</strong> {{ dish.description }}</p>
-                    <div class="mt-auto d-flex justify-content-between">
-                        <a href="{{ dish.get_absolute_url }}" class="btn btn-sm btn-outline-primary">View</a>
-                        <a href="{% url 'kitchen:dish-update' dish.id %}" class="btn btn-sm btn-outline-secondary">Edit</a>
-                    </div>
-                </div>
+          <div class="card h-100 shadow-sm">
+            {% if dish.picture %}
+              <img src="{{ dish.picture.url }}" class="card-img-top" alt="{{ dish.name }}"
+                   style="height: 200px; object-fit: cover;">
+            {% else %}
+              <div class="card-img-top bg-secondary text-white d-flex align-items-center justify-content-center"
+                   style="height: 200px;">
+                No Picture
+              </div>
+            {% endif %}
+            <div class="card-body d-flex flex-column">
+              <h5 class="card-title">{{ dish.name }}</h5>
+              <p class="card-text mb-2"><strong>Price:</strong> {{ dish.price }}$</p>
+              <p class="card-text mb-3"><strong>Dish Type:</strong> {{ dish.dish_type }}</p>
+              <p class="card-text mb-3"><strong>Description:</strong> {{ dish.description }}</p>
+              <div class="mt-auto d-flex justify-content-between">
+                <a href="{{ dish.get_absolute_url }}" class="btn btn-sm btn-outline-primary">View</a>
+                <a href="{% url 'kitchen:dish-update' dish.id %}" class="btn btn-sm btn-outline-secondary">Edit</a>
+              </div>
             </div>
+          </div>
         </div>
-        {% endfor %}
+      {% endfor %}
     </div>
-</div>
+  </div>
 {% endblock %}

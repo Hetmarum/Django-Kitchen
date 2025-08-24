@@ -20,6 +20,7 @@ class DishForm(forms.ModelForm):
         model = Dish
         fields = "__all__"
 
+
 class IngredientSearchForm(forms.Form):
     title = forms.CharField(
         max_length=255,
@@ -27,6 +28,7 @@ class IngredientSearchForm(forms.Form):
         label="",
         widget=forms.TextInput(attrs={"placeholder": "Search by name"}),
     )
+
 
 class DishSearchForm(forms.Form):
     title = forms.CharField(
@@ -36,6 +38,7 @@ class DishSearchForm(forms.Form):
         widget=forms.TextInput(attrs={"placeholder": "Search by name"}),
     )
 
+
 class CookSearchForm(forms.Form):
     title = forms.CharField(
         max_length=255,
@@ -43,4 +46,3 @@ class CookSearchForm(forms.Form):
         label="",
         widget=forms.TextInput(attrs={"placeholder": "Search by username"}),
     )
-
