@@ -5,7 +5,7 @@
     </li>
   {% else %}
     <li class="list-group-item">
-      <a href="{% url 'accounts:login' %}">Login</a>
+      <a href="{% url 'accounts:login' %}" class="btn btn-outline-info mb-0">Login</a>
     </li>
   {% endif %}
   <br>
@@ -28,7 +28,7 @@
   {% if user.is_authenticated %}
       <form method="post" action="{% url 'accounts:logout' %}">
         {% csrf_token %}
-        <button type="submit" class="btn btn-primary">Log out</button>
+        <button type="submit" class="btn btn-outline-info mb-0">Log out</button>
       </form>
   {% endif %}
 </ul>

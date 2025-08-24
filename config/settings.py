@@ -142,7 +142,6 @@ LOGIN_REDIRECT_URL = "/"
 MEDIA_URL = "/media/"
 MEDIA_ROOT = BASE_DIR / "media"
 
-DEFAULT_FILE_STORAGE = "storages.backends.dropbox.DropBoxStorage"
 
 CRISPY_TEMPLATE_PACK = "bootstrap4"
 
