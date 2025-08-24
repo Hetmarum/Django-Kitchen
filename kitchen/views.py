@@ -124,7 +124,7 @@ class DishListView(LoginRequiredMixin, generic.ListView):
         order_by = self.request.GET.get("order_by", "")
 
         context["search_form"] = DishSearchForm(initial={"title": name})
-        context["current_order"] = order_by  # keep current sorting
+        context["current_order"] = order_by
         return context
 
     def get_queryset(self):
@@ -136,12 +136,19 @@ class DishListView(LoginRequiredMixin, generic.ListView):
                 queryset = queryset.filter(name__icontains=search_term)
 
         order_by = self.request.GET.get("order_by")
-        if order_by == "dish_type":
-            queryset = queryset.order_by("dish_type__name", "name")
-        elif order_by == "name":
-            queryset = queryset.order_by("name")
-        elif order_by == "price":
-            queryset = queryset.order_by("price")
+        if order_by:
+            if order_by == "dish_type_asc":
+                queryset = queryset.order_by("dish_type__name", "name")
+            elif order_by == "dish_type_desc":
+                queryset = queryset.order_by("-dish_type__name", "name")
+            elif order_by == "name_asc":
+                queryset = queryset.order_by("name")
+            elif order_by == "name_desc":
+                queryset = queryset.order_by("-name")
+            elif order_by == "price_asc":
+                queryset = queryset.order_by("price")
+            elif order_by == "price_desc":
+                queryset = queryset.order_by("-price")
 
         return queryset
 
