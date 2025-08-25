@@ -33,8 +33,9 @@
   background-image: url("../images/cooks_background.jpg");
   background-size: cover;
   background-position: center;
+  background-attachment: fixed;
   min-height: 100vh;
-  overflow: hidden;
+  width: 100%;
 }
 
 
