@@ -1,5 +1,6 @@
 from django.contrib.auth.models import AbstractUser
 from django.conf import settings
+from django.core.files.base import ContentFile
 from django.db import models
 from django.urls import reverse
 
@@ -63,8 +64,14 @@ class Dish(models.Model):
 
     def save(self, *args, **kwargs):
         if self.picture and not kwargs.get("raw", False):
+            try:
+                old = Dish.objects.get(pk=self.pk)
+                picture_changed = old.picture != self.picture
+            except Dish.DoesNotExist:
+                picture_changed = True
 
-            resized = resize_image(self.picture, size=(800, 800), quality=85)
-            self.picture.save(self.picture.name, resized, save=False)
+            if picture_changed:
+                resized = resize_image(self.picture, size=(800, 800), quality=85)
+                self.picture.save(self.picture.name, ContentFile(resized.read()), save=False)
 
         super().save(*args, **kwargs)
