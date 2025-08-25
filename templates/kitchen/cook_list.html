@@ -2,6 +2,7 @@
 {% load crispy_forms_filters %}
 
 {% block content %}
+  <br>
   <h1>Cook List <a class="btn btn-outline-primary" style="float: right" href="{% url 'kitchen:cook-create' %}">Add cook</a></h1>
   <form method="get" action="" class="form-inline">
     {{ search_form|crispy }}
@@ -14,30 +15,33 @@
       </select>
     <button type="submit" class="btn btn-secondary ml-2">Search</button>
   </form>
+
   {% if cook_list %}
-    <table class="table">
-      <tr>
-        <th>ID</th>
-        <th>Full Name</th>
-        <th>Username</th>
-        <th>Experience Years</th>
-      </tr>
-      {% for cook in cook_list %}
-        <tr>
-          <td>
-            <a href="{{ cook.get_absolute_url }}">{{ cook.id }}</a>
-          </td>
-          <td>
-            {{ cook.first_name }} {{ cook.last_name }}
-          </td>
-          <td>
-            {{ cook.username }}
-          </td>
-          <td>
-            {{ cook.years_of_experience }}
-          </td>
-        </tr>
-      {% endfor %}
-    </table>
+    <div class="table-responsive">
+      <table class="table table-striped align-middle rounded shadow-sm overflow-hidden">
+        <thead class="table-dark">
+          <tr>
+            <th>ID</th>
+            <th>Full Name</th>
+            <th>Username</th>
+            <th>Experience (Years)</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for cook in cook_list %}
+            <tr>
+              <td><a href="{{ cook.get_absolute_url }}" class="text-decoration-none">{{ cook.id }}</a></td>
+              <td>{{ cook.first_name }} {{ cook.last_name }}</td>
+              <td>{{ cook.username }}</td>
+              <td>{{ cook.years_of_experience }}</td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  {% else %}
+    <div class="alert alert-info text-center">
+      No cooks found.
+    </div>
   {% endif %}
 {% endblock %}
