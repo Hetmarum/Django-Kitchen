@@ -14,3 +14,17 @@
   background-position: center;
   min-height: 100vh;
 }
+
+.bg-logged-out {
+  background-image: url("../images/logged_out_background.jpg");
+  background-size: cover;
+  background-position: center;
+  min-height: 100vh;
+}
+
+.bg-login {
+  background-image: url("../images/login.png");
+  background-size: cover;
+  background-position: center;
+  min-height: 100vh;
+}

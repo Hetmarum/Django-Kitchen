@@ -31,7 +31,10 @@ class CookListView(LoginRequiredMixin, generic.ListView):
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
         username = self.request.GET.get("username", "")
+        order_by = self.request.GET.get("order_by", "")
+
         context["search_form"] = CookSearchForm(initial={"title": username})
+        context["current_order"] = order_by
         return context
 
     def get_queryset(self):
@@ -41,8 +44,19 @@ class CookListView(LoginRequiredMixin, generic.ListView):
             search_term = form.cleaned_data["title"]
             if search_term:
                 queryset = queryset.filter(username__icontains=search_term)
-        return queryset
 
+        order_by = self.request.GET.get("order_by")
+        if order_by:
+            if order_by == "full_name_asc":
+                queryset = queryset.order_by("first_name", "last_name")
+            elif order_by == "full_name_desc":
+                queryset = queryset.order_by("-first_name", "-last_name")
+            elif order_by == "experience_asc":
+                queryset = queryset.order_by("years_of_experience")
+            elif order_by == "experience_desc":
+                queryset = queryset.order_by("-years_of_experience")
+
+        return queryset
 
 class CookDetailView(LoginRequiredMixin, generic.DetailView):
     model = Cook
