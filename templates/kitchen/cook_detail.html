@@ -1,33 +1,40 @@
 {% extends "base.html" %}
+{% block background %}bg-cooks{% endblock %}
 
 {% block content %}
-<div class="container mt-4">
-  <h1>Full Name: {{ cook.first_name }} {{ cook.last_name }}</h1>
-  <p><strong>Username:</strong> {{ cook.username }}</p>
-  <p><strong>Years of Experience:</strong> {{ cook.years_of_experience }}</p>
+<div class="container mt-4 p-4 rounded shadow"
+   style="
+   background-color: rgba(255, 255, 255, 0.85);
+   backdrop-filter: blur(8px);
+">
+  <div class="container mt-4">
+    <h1>Full Name: {{ cook.first_name }} {{ cook.last_name }}</h1>
+    <p><strong>Username:</strong> {{ cook.username }}</p>
+    <p><strong>Years of Experience:</strong> {{ cook.years_of_experience }}</p>
 
-  <div class="mt-4">
-    <h3>Dishes:</h3>
-    {% if cook.dishes.exists %}
-      {% for dish in cook.dishes.all %}
-        <div class="card mb-3 shadow-sm">
-          <div class="card-body">
-            <p><strong>Name:</strong> {{ dish.name }}</p>
-            <p><strong>Dish Type:</strong> {{ dish.dish_type }}</p>
-            <a href="{{ dish.get_absolute_url }}" class="btn btn-outline-info">View</a>
+    <div class="mt-4">
+      <h3>Dishes:</h3>
+      {% if cook.dishes.exists %}
+        {% for dish in cook.dishes.all %}
+          <div class="card mb-3 shadow-sm">
+            <div class="card-body">
+              <p><strong>Name:</strong> {{ dish.name }}</p>
+              <p><strong>Dish Type:</strong> {{ dish.dish_type }}</p>
+              <a href="{{ dish.get_absolute_url }}" class="btn btn-outline-info">View</a>
+            </div>
           </div>
-        </div>
-      {% endfor %}
-    {% else %}
-      <div class="alert alert-info">No dishes assigned to this cook.</div>
-    {% endif %}
-  </div>
+        {% endfor %}
+      {% else %}
+        <div class="alert alert-info">No dishes assigned to this cook.</div>
+      {% endif %}
+    </div>
 
-  <div class="mt-3">
-    {% if request.user.is_superuser or request.user == cook %}
-      <a class="btn btn-outline-primary" href="{% url 'kitchen:cook-update' pk=cook.id %}">Update</a>
-      <a class="btn btn-outline-danger" href="{% url 'kitchen:cook-delete' pk=cook.id %}">Delete</a>
-    {% endif %}
+    <div class="mt-3">
+      {% if request.user.is_superuser or request.user == cook %}
+        <a class="btn btn-outline-primary" href="{% url 'kitchen:cook-update' pk=cook.id %}">Update</a>
+        <a class="btn btn-outline-danger" href="{% url 'kitchen:cook-delete' pk=cook.id %}">Delete</a>
+      {% endif %}
+    </div>
   </div>
 </div>
 {% endblock %}
