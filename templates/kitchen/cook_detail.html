@@ -28,13 +28,15 @@
         <div class="alert alert-info">No dishes assigned to this cook.</div>
       {% endif %}
     </div>
+      <div class="mt-3">
+        {% if request.user.is_superuser or request.user == cook %}
+          <a class="btn btn-outline-primary" href="{% url 'kitchen:cook-update' pk=cook.id %}">Update</a>
+        {% endif %}
 
-    <div class="mt-3">
-      {% if request.user.is_superuser or request.user == cook %}
-        <a class="btn btn-outline-primary" href="{% url 'kitchen:cook-update' pk=cook.id %}">Update</a>
-        <a class="btn btn-outline-danger" href="{% url 'kitchen:cook-delete' pk=cook.id %}">Delete</a>
-      {% endif %}
+        {% if request.user.is_superuser %}
+          <a class="btn btn-outline-danger" href="{% url 'kitchen:cook-delete' pk=cook.id %}">Delete</a>
+        {% endif %}
+      </div>
     </div>
   </div>
-</div>
 {% endblock %}
