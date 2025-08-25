@@ -30,7 +30,7 @@
 }
 
 .bg-cooks {
-  background-image: url("../images/cooks_background.png");
+  background-image: url("../images/cooks_background.jpg");
   background-size: cover;
   background-position: center;
   min-height: 100vh;
@@ -38,15 +38,23 @@
 }
 
 
-.bg-cooks::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background: inherit;
-  filter: blur(10px);
-  transform: scale(1.05);
-  z-index: -1;
-}
+/* .bg-cooks::before { */
+
+/*  content: ""; */
+
+/*  position: absolute; */
+
+/*  inset: 0; */
+
+/*  background: inherit; */
+
+/*  filter: blur(10px); */
+
+/*  transform: scale(1.05); */
+
+/*  z-index: -1; */
+
+/* } */
 
 body {
   font-family: "Playwrite CA", cursive;
