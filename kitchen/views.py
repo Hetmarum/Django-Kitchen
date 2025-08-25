@@ -1,4 +1,5 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.db.models import Q
 from django.urls import reverse_lazy
 from django.views import generic
 from django.views.generic import TemplateView
@@ -43,7 +44,11 @@ class CookListView(LoginRequiredMixin, generic.ListView):
         if form.is_valid():
             search_term = form.cleaned_data["title"]
             if search_term:
-                queryset = queryset.filter(username__icontains=search_term)
+                queryset = queryset.filter(
+                    Q(username__icontains=search_term) |
+                    Q(first_name__icontains=search_term) |
+                    Q(last_name__icontains=search_term)
+                )
 
         order_by = self.request.GET.get("order_by")
         if order_by:
