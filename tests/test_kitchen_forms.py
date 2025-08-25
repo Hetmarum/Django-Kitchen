@@ -1,5 +1,11 @@
 from django.test import TestCase
-from kitchen.forms import CookCreationForm, DishForm, DishSearchForm, CookSearchForm, IngredientSearchForm
+from kitchen.forms import (
+    CookCreationForm,
+    DishForm,
+    DishSearchForm,
+    CookSearchForm,
+    IngredientSearchForm,
+)
 from kitchen.models import Cook, Dish, DishType, Ingredient
 from decimal import Decimal
 
@@ -34,7 +40,10 @@ class DishFormTest(TestCase):
         self.dish_type = DishType.objects.create(name="Main Course")
         self.ingredient1 = Ingredient.objects.create(name="Salt")
         self.ingredient2 = Ingredient.objects.create(name="Pepper")
-        self.cook = Cook.objects.create_user(username="chef", password="password123")
+        self.cook = Cook.objects.create_user(
+            username="chef",
+            password="password123"
+        )
 
     def test_form_valid_data(self):
         form_data = {

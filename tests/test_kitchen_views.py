@@ -7,10 +7,12 @@ from kitchen.models import Cook, Dish, DishType, Ingredient
 User = get_user_model()
 
 
-
 class DishListViewTest(TestCase):
     def setUp(self):
-        self.user = Cook.objects.create_user(username="chef1", password="testpass")
+        self.user = Cook.objects.create_user(
+            username="chef1",
+            password="testpass"
+        )
         self.client.login(username="chef1", password="testpass")
 
         self.dish_type = DishType.objects.create(name="Main Course")
@@ -19,7 +21,7 @@ class DishListViewTest(TestCase):
                 name=f"Dish{i}",
                 description=f"Description {i}",
                 price=i,
-                dish_type=self.dish_type
+                dish_type=self.dish_type,
             )
 
     def test_view_status_code(self):
@@ -36,25 +38,40 @@ class DishListViewTest(TestCase):
         self.assertEqual(len(response.context["dish_list"]), 6)
 
     def test_search_functionality(self):
-        response = self.client.get(reverse("kitchen:dish-list"), {"name": "Dish1"})
+        response = self.client.get(
+            reverse(
+                "kitchen:dish-list"
+            ),
+            {"name": "Dish1"}
+        )
         dish_names = [dish.name for dish in response.context["dish_list"]]
         self.assertIn("Dish1", dish_names)
 
     def test_ordering_functionality(self):
-        response = self.client.get(reverse("kitchen:dish-list"), {"order_by": "name_desc"})
+        response = self.client.get(
+            reverse("kitchen:dish-list"), {"order_by": "name_desc"}
+        )
         dish_names = [dish.name for dish in response.context["dish_list"]]
         self.assertEqual(dish_names[0], "Dish9")
 
 
 class CookListViewTest(TestCase):
     def setUp(self):
-        self.user = Cook.objects.create_user(username="admin", password="testpass")
+        self.user = Cook.objects.create_user(
+            username="admin",
+            password="testpass"
+        )
         self.client.login(username="admin", password="testpass")
         for i in range(10):
             Cook.objects.create_user(username=f"chef{i}", password="testpass")
 
     def test_search_username(self):
-        response = self.client.get(reverse("kitchen:cook-list"), {"username": "chef1"})
+        response = self.client.get(
+            reverse(
+                "kitchen:cook-list"
+            ),
+            {"username": "chef1"}
+        )
         cooks = response.context["object_list"]
         cook_usernames = [cook.username for cook in cooks]
 

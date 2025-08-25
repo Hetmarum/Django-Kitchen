@@ -45,9 +45,9 @@ class CookListView(LoginRequiredMixin, generic.ListView):
             search_term = form.cleaned_data["title"]
             if search_term:
                 queryset = queryset.filter(
-                    Q(username__icontains=search_term) |
-                    Q(first_name__icontains=search_term) |
-                    Q(last_name__icontains=search_term)
+                    Q(username__icontains=search_term)
+                    | Q(first_name__icontains=search_term)
+                    | Q(last_name__icontains=search_term)
                 )
 
         order_by = self.request.GET.get("order_by")
@@ -62,6 +62,7 @@ class CookListView(LoginRequiredMixin, generic.ListView):
                 queryset = queryset.order_by("-years_of_experience")
 
         return queryset
+
 
 class CookDetailView(LoginRequiredMixin, generic.DetailView):
     model = Cook
@@ -86,7 +87,8 @@ class CookUpdateView(LoginRequiredMixin, generic.UpdateView):
 
     def get_success_url(self):
         return reverse_lazy(
-            "kitchen:cook-detail", kwargs={"pk": self.object.pk}
+            "kitchen:cook-detail",
+            kwargs={"pk": self.object.pk}
         )
 
 

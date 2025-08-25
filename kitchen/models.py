@@ -48,7 +48,8 @@ class Dish(models.Model):
         DishType, on_delete=models.CASCADE, related_name="dishes"
     )
     cooks = models.ManyToManyField(
-        settings.AUTH_USER_MODEL, related_name="dishes"
+        settings.AUTH_USER_MODEL,
+        related_name="dishes"
     )
     ingredients = models.ManyToManyField(Ingredient, related_name="dishes")
     picture = models.ImageField(null=True, blank=True)
@@ -71,7 +72,12 @@ class Dish(models.Model):
                 picture_changed = True
 
             if picture_changed:
-                resized = resize_image(self.picture, size=(800, 800), quality=85)
-                self.picture.save(self.picture.name, ContentFile(resized.read()), save=False)
+                resized = resize_image(
+                    self.picture, size=(800, 800),
+                    quality=85
+                )
+                self.picture.save(
+                    self.picture.name, ContentFile(resized.read()), save=False
+                )
 
         super().save(*args, **kwargs)

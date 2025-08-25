@@ -10,7 +10,7 @@ class CookModelTest(TestCase):
             password="testpass123",
             first_name="John",
             last_name="Doe",
-            years_of_experience=5
+            years_of_experience=5,
         )
 
     def test_str_method(self):
@@ -18,7 +18,9 @@ class CookModelTest(TestCase):
 
     def test_get_absolute_url(self):
         url = self.cook.get_absolute_url()
-        self.assertEqual(url, reverse("kitchen:cook-detail", args=[self.cook.id]))
+        self.assertEqual(
+            url, reverse("kitchen:cook-detail", args=[self.cook.id])
+        )
 
 
 class DishTypeModelTest(TestCase):
@@ -40,7 +42,10 @@ class IngredientModelTest(TestCase):
 class DishModelTest(TestCase):
     def setUp(self):
         self.dish_type = DishType.objects.create(name="Main Course")
-        self.cook = Cook.objects.create_user(username="chef1", password="testpass")
+        self.cook = Cook.objects.create_user(
+            username="chef1",
+            password="testpass"
+        )
         self.ingredient = Ingredient.objects.create(name="Tomato")
         self.dish = Dish.objects.create(
             name="Pasta",
@@ -52,7 +57,12 @@ class DishModelTest(TestCase):
         self.dish.ingredients.add(self.ingredient)
 
     def test_str_method(self):
-        self.assertEqual(str(self.dish), f"Pasta {self.dish_type} Price: {self.dish.price}")
+        self.assertEqual(
+            str(self.dish), f"Pasta {self.dish_type} Price: {self.dish.price}"
+        )
 
     def test_get_absolute_url(self):
-        self.assertEqual(self.dish.get_absolute_url(), reverse("kitchen:dish-detail", args=[self.dish.id]))
+        self.assertEqual(
+            self.dish.get_absolute_url(),
+            reverse("kitchen:dish-detail", args=[self.dish.id]),
+        )

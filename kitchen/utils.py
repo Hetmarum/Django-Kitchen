@@ -2,6 +2,7 @@ from io import BytesIO
 from PIL import Image
 from django.core.files.base import ContentFile
 
+
 def resize_image(image_field, size=(400, 200), quality=80):
     """
     Resize and compress uploaded image.

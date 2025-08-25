@@ -18,7 +18,7 @@ class AuthTests(TestCase):
     def test_login_valid_user(self):
         response = self.client.post(
             reverse("accounts:login"),
-            {"username": self.username, "password": self.password}
+            {"username": self.username, "password": self.password},
         )
         self.assertEqual(response.status_code, 302)
         self.assertTrue(response.wsgi_request.user.is_authenticated)
@@ -26,7 +26,7 @@ class AuthTests(TestCase):
     def test_login_invalid_user(self):
         response = self.client.post(
             reverse("accounts:login"),
-            {"username": self.username, "password": "wrongpass"}
+            {"username": self.username, "password": "wrongpass"},
         )
         self.assertEqual(response.status_code, 200)
         self.assertFalse(response.wsgi_request.user.is_authenticated)
@@ -36,4 +36,7 @@ class AuthTests(TestCase):
         response = self.client.post(reverse("accounts:logout"))
         self.assertEqual(response.status_code, 200)
         self.assertFalse(response.wsgi_request.user.is_authenticated)
-        self.assertTemplateUsed(response, "kitchen/registration/logged_out.html")
+        self.assertTemplateUsed(
+            response,
+            "kitchen/registration/logged_out.html"
+        )
