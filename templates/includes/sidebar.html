@@ -8,42 +8,46 @@
        top: 0;
        left: 0;
        overflow-y: auto;
-       background-color: rgba(255, 255, 255, 0.85);
+       background-color: rgba(255, 255, 255, 0.9);
        backdrop-filter: blur(8px);
        border-right: 1px solid rgba(0, 0, 0, 0.1);
        border-radius: 0 15px 15px 0;
      ">
 
-  {% if user.is_authenticated %}
-    <div class="d-flex align-items-center mb-3">
-      <i class="bi bi-person-circle fs-4 me-2 text-primary"></i>
-      <span class="fw-semibold">User: {{ user.username }}</span>
-    </div>
-  {% endif %}
+  <ul class="nav nav-pills flex-column gap-2 mb-auto">
 
-  <ul class="nav nav-pills flex-column mb-auto">
-    <li class="nav-item">
-      <a href="{% url 'kitchen:index' %}" class="nav-link link-dark">
+    {% if user.is_authenticated %}
+      <li class="mb-3">
+        <a href="{% url 'kitchen:cook-detail' pk=user.id %}"
+           class="btn d-flex align-items-center sidebar-btn">
+          <i class="bi bi-person-circle me-2 text-primary"></i>
+          {{ user.username }}
+        </a>
+      </li>
+    {% endif %}
+
+    <li>
+      <a href="{% url 'kitchen:index' %}" class="btn d-flex align-items-center sidebar-btn">
         <i class="bi bi-house-door me-2"></i> Home
       </a>
     </li>
     <li>
-      <a href="{% url 'kitchen:cook-list' %}" class="nav-link link-dark">
+      <a href="{% url 'kitchen:cook-list' %}" class="btn d-flex align-items-center sidebar-btn">
         <i class="bi bi-people me-2"></i> All cooks
       </a>
     </li>
     <li>
-      <a href="{% url 'kitchen:dish-list' %}" class="nav-link link-dark">
+      <a href="{% url 'kitchen:dish-list' %}" class="btn d-flex align-items-center sidebar-btn">
         <i class="bi bi-egg-fried me-2"></i> All dishes
       </a>
     </li>
     <li>
-      <a href="{% url 'kitchen:dish_type-list' %}" class="nav-link link-dark">
+      <a href="{% url 'kitchen:dish_type-list' %}" class="btn d-flex align-items-center sidebar-btn">
         <i class="bi bi-tags me-2"></i> Dish types
       </a>
     </li>
     <li>
-      <a href="{% url 'kitchen:ingredient-list' %}" class="nav-link link-dark">
+      <a href="{% url 'kitchen:ingredient-list' %}" class="btn d-flex align-items-center sidebar-btn">
         <i class="bi bi-basket me-2"></i> Ingredients
       </a>
     </li>
@@ -53,8 +57,8 @@
     <hr>
     <form method="post" action="{% url 'accounts:logout' %}">
       {% csrf_token %}
-      <button type="submit" class="btn btn-outline-danger w-100">
-        <i class="bi bi-box-arrow-right me-1"></i> Log out
+      <button type="submit" class="btn btn-outline-danger d-flex align-items-center w-100 sidebar-btn-danger">
+        <i class="bi bi-box-arrow-right me-2"></i> Log out
       </button>
     </form>
   {% endif %}
