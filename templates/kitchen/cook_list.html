@@ -6,10 +6,11 @@
   <form method="get" action="" class="form-inline">
     {{ search_form|crispy }}
     <select name="order_by" class="form-control ml-2">
-        <option value="full_name_asc" {% if current_order == "full_name_asc" %}selected{% endif %}>Full Name ↑</option>
-        <option value="full_name_desc" {% if current_order == "full_name_desc" %}selected{% endif %}>Full Name ↓</option>
-        <option value="experience_asc" {% if current_order == "experience_asc" %}selected{% endif %}>Experience Years ↑</option>
-        <option value="experience_desc" {% if current_order == "experience_desc" %}selected{% endif %}>Experience Years ↓</option>
+      <option value="">-- Sort by --</option>
+      <option value="full_name_asc" {% if current_order == "full_name_asc" %}selected{% endif %}>Full Name ↑</option>
+      <option value="full_name_desc" {% if current_order == "full_name_desc" %}selected{% endif %}>Full Name ↓</option>
+      <option value="experience_asc" {% if current_order == "experience_asc" %}selected{% endif %}>Experience Years ↑</option>
+      <option value="experience_desc" {% if current_order == "experience_desc" %}selected{% endif %}>Experience Years ↓</option>
       </select>
     <button type="submit" class="btn btn-secondary ml-2">Search</button>
   </form>
