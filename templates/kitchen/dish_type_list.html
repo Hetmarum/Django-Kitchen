@@ -2,7 +2,12 @@
 
 {% block content %}
   <br>
-  <h1>Dish Type List <a class="btn btn-outline-primary" style="float: right" href="{% url 'kitchen:dish_type-create' %}">Add new dish type</a></h1>
+  <h1>
+    Dish Type List
+    {% if request.user.is_superuser %}
+      <a class="btn btn-outline-primary" style="float: right" href="{% url 'kitchen:dish_type-create' %}">Add new dish type</a>
+    {% endif %}
+  </h1>
   <br>
 {% if dish_type_list %}
   <div class="table-responsive mb-4">
@@ -11,8 +16,10 @@
         <tr>
           <th>ID</th>
           <th>Name</th>
-          <th>Update</th>
-          <th>Delete</th>
+          {% if request.user.is_superuser %}
+            <th>Update</th>
+            <th>Delete</th>
+          {% endif %}
         </tr>
       </thead>
       <tbody>
@@ -20,12 +27,14 @@
           <tr>
             <td>{{ dish_type.id }}</td>
             <td>{{ dish_type.name }}</td>
-            <td>
-              <a href="{% url 'kitchen:dish_type-update' pk=dish_type.id %}" class="btn btn-sm btn-outline-primary">Update</a>
-            </td>
-            <td>
-              <a href="{% url 'kitchen:dish_type-delete' pk=dish_type.id %}" class="btn btn-sm btn-outline-danger">Delete</a>
-            </td>
+            {% if request.user.is_superuser %}
+              <td>
+                <a href="{% url 'kitchen:dish_type-update' pk=dish_type.id %}" class="btn btn-sm btn-outline-primary">Update</a>
+              </td>
+              <td>
+                <a href="{% url 'kitchen:dish_type-delete' pk=dish_type.id %}" class="btn btn-sm btn-outline-danger">Delete</a>
+              </td>
+            {% endif %}
           </tr>
         {% endfor %}
       </tbody>

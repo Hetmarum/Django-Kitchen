@@ -44,8 +44,8 @@
               <p class="card-text mb-3"><strong>Dish Type:</strong> {{ dish.dish_type }}</p>
               <p class="card-text mb-3"><strong>Description:</strong> {{ dish.description }}</p>
               <div class="mt-auto d-flex justify-content-between">
-                <a href="{{ dish.get_absolute_url }}" class="btn btn-sm btn-outline-primary">View</a>
-                <a href="{% url 'kitchen:dish-update' dish.id %}" class="btn btn-sm btn-outline-secondary">Edit</a>
+                <a href="{{ dish.get_absolute_url }}" class="btn btn-outline-info">View</a>
+                <a href="{% url 'kitchen:dish-update' dish.id %}" class="btn btn-outline-primary">Edit</a>
               </div>
             </div>
           </div>
