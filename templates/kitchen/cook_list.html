@@ -12,6 +12,11 @@
 
   <form method="get" action="" class="form-inline">
     {{ search_form|crispy }}
+    <style>
+      input[type="text"] {
+        min-width: 310px;
+      }
+    </style>
     <select name="order_by" class="form-control ml-2">
       <option value="">-- Sort by --</option>
       <option value="full_name_asc" {% if current_order == "full_name_asc" %}selected{% endif %}>Full Name ↑</option>
