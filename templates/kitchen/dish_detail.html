@@ -1,7 +1,12 @@
 {% extends "base.html" %}
+{% block background %}bg-dishes{% endblock %}
 
 {% block content %}
-<div class="container mt-4">
+<div class="container mt-4 p-4 rounded shadow"
+     style="
+     background-color: rgba(255, 255, 255, 0.85);
+     backdrop-filter: blur(8px);
+">
   <h1>
     Name: {{ dish.name }}
   </h1>
