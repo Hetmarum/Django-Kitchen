@@ -1,0 +1,16 @@
+.bg-dishes {
+  background-image: url("../images/dish_list_background.jpg");
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+  min-height: 100vh;
+  width: 100%;
+}
+
+
+.bg-home {
+  background-image: url("../images/home_background.jpg");
+  background-size: cover;
+  background-position: center;
+  min-height: 100vh;
+}

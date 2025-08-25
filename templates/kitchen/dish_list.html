@@ -1,15 +1,17 @@
 {% extends "base.html" %}
 {% load crispy_forms_filters %}
+{% block background %}bg-dishes{% endblock %}
 
 {% block content %}
-  <div class="container my-5">
-    <div class="d-flex justify-content-between align-items-center mb-4">
-      <h1>Dish List</h1>
+  <div class="sticky-top shadow-sm p-3 mb-3"
+       style="z-index: 100; top: 0; background-color: rgba(255, 255, 255, 0.85); border-radius: 0 0 15px 15px;">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+      <h1 class="m-0">Dish List</h1>
       <a class="btn btn-primary btn-lg" href="{% url 'kitchen:dish-create' %}">Add dish</a>
     </div>
-    <form method="get" action="" class="form-inline mb-3">
+    <form method="get" action="" class="form-inline">
       {{ search_form|crispy }}
-      <select name="order_by" class="form-control">
+      <select name="order_by" class="form-control ml-2">
         <option value="">-- Sort by --</option>
         <option value="name_asc" {% if current_order == "name_asc" %}selected{% endif %}>Name ↑</option>
         <option value="name_desc" {% if current_order == "name_desc" %}selected{% endif %}>Name ↓</option>
@@ -20,9 +22,12 @@
       </select>
       <button type="submit" class="btn btn-secondary ml-2">Search</button>
     </form>
-    <div class="row row-cols-1 row-cols-md-3 g-4">
+  </div>
+
+  <div class="container-fluid my-5 px-0">
+    <div class="row row-cols-1 row-cols-md-3 g-4 mx-0">
       {% for dish in dish_list %}
-        <div class="col">
+        <div class="col px-2">
           <div class="card h-100 shadow-sm">
             {% if dish.picture %}
               <img src="{{ dish.picture.url }}" class="card-img-top" alt="{{ dish.name }}"
