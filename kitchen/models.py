@@ -43,6 +43,7 @@ class Ingredient(models.Model):
 def get_default_dish_type():
     return DishType.objects.get_or_create(name="None")[0].pk
 
+
 class Dish(models.Model):
     name = models.CharField(max_length=63, unique=True)
     description = models.TextField(blank=True)
