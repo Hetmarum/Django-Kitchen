@@ -105,10 +105,10 @@ class CookUpdateView(LoginRequiredMixin, generic.UpdateView):
         return form
 
     def get_object(self, queryset=None):
-        obj = super().get_object(queryset)
-        if obj.is_superuser and not self.request.user.is_superuser:
+        user = super().get_object(queryset)
+        if user.is_superuser and not self.request.user.is_superuser:
             raise PermissionDenied("You cannot edit a superuser.")
-        return obj
+        return user
 
     def get_success_url(self):
         return reverse_lazy("kitchen:cook-detail", kwargs={"pk": self.object.pk})
@@ -120,15 +120,15 @@ class CookDeleteView(LoginRequiredMixin, generic.DeleteView):
     success_url = reverse_lazy("kitchen:cook-list")
 
     def get_object(self, queryset=None):
-        obj = super().get_object(queryset)
+        user = super().get_object(queryset)
 
-        if obj.is_superuser and not self.request.user.is_superuser:
+        if user.is_superuser and not self.request.user.is_superuser:
             raise PermissionDenied("You cannot delete a superuser.")
 
-        if obj == self.request.user:
+        if user == self.request.user:
             raise PermissionDenied("You cannot delete your own account.")
 
-        return obj
+        return user
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
