@@ -38,6 +38,20 @@
   width: 100%;
 }
 
+.bg-dish-types {
+  background-image: url("../images/dish_types_background.png");
+  background-size: cover;
+  background-position: center;
+  min-height: 100vh;
+}
+
+.bg-ingredients {
+  background-image: url("../images/ingredients_background.png");
+  background-size: cover;
+  background-position: center;
+  min-height: 100vh;
+}
+
 
 /* .bg-cooks::before { */
 
