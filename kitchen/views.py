@@ -1,4 +1,5 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.core.exceptions import PermissionDenied
 from django.db.models import Q
 from django.urls import reverse_lazy
 from django.views import generic
@@ -72,6 +73,16 @@ class CookCreateView(LoginRequiredMixin, generic.CreateView):
     model = Cook
     form_class = CookCreationForm
 
+    def get_form(self, form_class=None):
+        form = super().get_form(form_class)
+        if not (self.request.user.is_superuser or self.request.user.is_staff):
+            form.fields.pop("is_staff", None)
+            form.fields.pop("is_active", None)
+        return form
+
+    def get_success_url(self):
+        return reverse_lazy("kitchen:cook-detail", kwargs={"pk": self.object.pk})
+
 
 class CookUpdateView(LoginRequiredMixin, generic.UpdateView):
     model = Cook
@@ -86,17 +97,33 @@ class CookUpdateView(LoginRequiredMixin, generic.UpdateView):
     ]
     template_name = "kitchen/cook_form.html"
 
+    def get_form(self, form_class=None):
+        form = super().get_form(form_class)
+        if not (self.request.user.is_superuser or self.request.user.is_staff):
+            form.fields.pop("is_staff", None)
+            form.fields.pop("is_active", None)
+        return form
+
+    def get_object(self, queryset=None):
+        obj = super().get_object(queryset)
+        if obj.is_superuser and not self.request.user.is_superuser:
+            raise PermissionDenied("You cannot edit a superuser.")
+        return obj
+
     def get_success_url(self):
-        return reverse_lazy(
-            "kitchen:cook-detail",
-            kwargs={"pk": self.object.pk}
-        )
+        return reverse_lazy("kitchen:cook-detail", kwargs={"pk": self.object.pk})
 
 
 class CookDeleteView(LoginRequiredMixin, generic.DeleteView):
     model = Cook
     template_name = "kitchen/cook_confirm_delete.html"
     success_url = reverse_lazy("kitchen:cook-list")
+
+    def get_object(self, queryset=None):
+        obj = super().get_object(queryset)
+        if obj.is_superuser and not self.request.user.is_superuser:
+            raise PermissionDenied("You cannot delete a superuser.")
+        return obj
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
