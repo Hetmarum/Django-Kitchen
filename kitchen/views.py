@@ -120,7 +120,11 @@ class CookUpdateView(LoginRequiredMixin, generic.UpdateView):
         )
 
 
-class CookDeleteView(LoginRequiredMixin, generic.DeleteView, ConfirmDeleteMixin):
+class CookDeleteView(
+    LoginRequiredMixin,
+    generic.DeleteView,
+    ConfirmDeleteMixin
+):
     model = Cook
     template_name = "kitchen/confirm_delete.html"
     success_url = reverse_lazy("kitchen:cook-list")
@@ -185,7 +189,11 @@ class DishTypeUpdateView(LoginRequiredMixin, generic.UpdateView):
     template_name = "kitchen/dish_type_form.html"
 
 
-class DishTypeDeleteView(LoginRequiredMixin, generic.DeleteView, ConfirmDeleteMixin):
+class DishTypeDeleteView(
+    LoginRequiredMixin,
+    generic.DeleteView,
+    ConfirmDeleteMixin
+):
     model = DishType
     template_name = "kitchen/confirm_delete.html"
     success_url = reverse_lazy("kitchen:dish_type-list")
@@ -244,7 +252,11 @@ class DishUpdateView(LoginRequiredMixin, generic.UpdateView):
     form_class = DishForm
 
 
-class DishDeleteView(LoginRequiredMixin, generic.DeleteView, ConfirmDeleteMixin):
+class DishDeleteView(
+    LoginRequiredMixin,
+    generic.DeleteView,
+    ConfirmDeleteMixin
+):
     model = Dish
     template_name = "kitchen/confirm_delete.html"
     success_url = reverse_lazy("kitchen:dish-list")
@@ -286,7 +298,11 @@ class IngredientUpdateView(LoginRequiredMixin, generic.UpdateView):
     template_name = "kitchen/ingredient_type_form.html"
 
 
-class IngredientDeleteView(LoginRequiredMixin, generic.DeleteView, ConfirmDeleteMixin):
+class IngredientDeleteView(
+    LoginRequiredMixin,
+    generic.DeleteView,
+    ConfirmDeleteMixin
+):
     model = Ingredient
     template_name = "kitchen/confirm_delete.html"
     success_url = reverse_lazy("kitchen:ingredient-list")
