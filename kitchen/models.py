@@ -40,15 +40,17 @@ class Ingredient(models.Model):
         return self.name
 
 
+def get_default_dish_type():
+    return DishType.objects.get_or_create(name="None")[0].pk
+
 class Dish(models.Model):
     name = models.CharField(max_length=63, unique=True)
     description = models.TextField(blank=True)
     price = models.DecimalField(decimal_places=2, max_digits=10)
     dish_type = models.ForeignKey(
-        DishType, on_delete=models.SET_NULL,
+        DishType, on_delete=models.SET_DEFAULT,
+        default=get_default_dish_type,
         related_name="dishes",
-        blank=True,
-        null=True
     )
     cooks = models.ManyToManyField(
         settings.AUTH_USER_MODEL,
