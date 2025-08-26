@@ -121,8 +121,13 @@ class CookDeleteView(LoginRequiredMixin, generic.DeleteView):
 
     def get_object(self, queryset=None):
         obj = super().get_object(queryset)
+
         if obj.is_superuser and not self.request.user.is_superuser:
             raise PermissionDenied("You cannot delete a superuser.")
+
+        if obj == self.request.user:
+            raise PermissionDenied("You cannot delete your own account.")
+
         return obj
 
     def get_context_data(self, **kwargs):
