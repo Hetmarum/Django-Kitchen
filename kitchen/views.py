@@ -121,7 +121,7 @@ class CookUpdateView(LoginRequiredMixin, generic.UpdateView):
 
 class CookDeleteView(LoginRequiredMixin, generic.DeleteView):
     model = Cook
-    template_name = "kitchen/cook_confirm_delete.html"
+    template_name = "kitchen/confirm_delete.html"
     success_url = reverse_lazy("kitchen:cook-list")
 
     def get_object(self, queryset=None):
@@ -137,6 +137,7 @@ class CookDeleteView(LoginRequiredMixin, generic.DeleteView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+        context["object_name"] = "Cook"
         context["previous_url"] = self.request.META.get("HTTP_REFERER")
         return context
 
@@ -191,11 +192,12 @@ class DishTypeUpdateView(LoginRequiredMixin, generic.UpdateView):
 
 class DishTypeDeleteView(LoginRequiredMixin, generic.DeleteView):
     model = DishType
-    template_name = "kitchen/dish_type_confirm_delete.html"
+    template_name = "kitchen/confirm_delete.html"
     success_url = reverse_lazy("kitchen:dish_type-list")
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+        context["object_name"] = "Dish Type"
         context["previous_url"] = self.request.META.get("HTTP_REFERER")
         return context
 
@@ -255,11 +257,12 @@ class DishUpdateView(LoginRequiredMixin, generic.UpdateView):
 
 class DishDeleteView(LoginRequiredMixin, generic.DeleteView):
     model = Dish
-    template_name = "kitchen/dish_confirm_delete.html"
+    template_name = "kitchen/confirm_delete.html"
     success_url = reverse_lazy("kitchen:dish-list")
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+        context["object_name"] = "Dish"
         context["previous_url"] = self.request.META.get("HTTP_REFERER")
         return context
 
@@ -302,10 +305,11 @@ class IngredientUpdateView(LoginRequiredMixin, generic.UpdateView):
 
 class IngredientDeleteView(LoginRequiredMixin, generic.DeleteView):
     model = Ingredient
-    template_name = "kitchen/ingredient_confirm_delete.html"
+    template_name = "kitchen/confirm_delete.html"
     success_url = reverse_lazy("kitchen:ingredient-list")
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+        context["object_name"] = "Ingredient"
         context["previous_url"] = self.request.META.get("HTTP_REFERER")
         return context
