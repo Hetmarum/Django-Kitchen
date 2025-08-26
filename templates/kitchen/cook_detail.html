@@ -37,6 +37,9 @@
         {% if request.user.is_staff %}
           <a class="btn btn-outline-danger" href="{% url 'kitchen:cook-delete' pk=cook.id %}">Delete</a>
         {% endif %}
+        {% if request.user.is_staff or request.user == cook %}
+          <a class="btn btn-outline-info" style="float: right" href="{% url 'kitchen:cook-password-change' pk=cook.id %}">Change Password</a>
+        {% endif %}
       </div>
     </div>
   </div>

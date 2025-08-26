@@ -1,4 +1,5 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.views import PasswordChangeView
 from django.core.exceptions import PermissionDenied
 from django.db.models import Q
 from django.urls import reverse_lazy
@@ -138,6 +139,31 @@ class CookDeleteView(LoginRequiredMixin, generic.DeleteView):
         context = super().get_context_data(**kwargs)
         context["previous_url"] = self.request.META.get("HTTP_REFERER")
         return context
+
+
+class CookPasswordChangeView(LoginRequiredMixin, PasswordChangeView):
+    template_name = "kitchen/password_change_form.html"
+    success_url = reverse_lazy("kitchen:cook-password-change-done")
+
+    def get_success_url(self):
+        return reverse_lazy(
+            "kitchen:cook-password-change-done",
+            kwargs={"pk": self.request.user.pk}
+        )
+
+    def dispatch(self, request, *args, **kwargs):
+        if request.user.pk != kwargs["pk"] and not request.user.is_superuser:
+            raise PermissionDenied("You cannot change another cook's password.")
+        return super().dispatch(request, *args, **kwargs)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["cook"] = Cook.objects.get(pk=self.kwargs["pk"])
+        return context
+
+
+class CookPasswordChangeDoneView(LoginRequiredMixin, TemplateView):
+    template_name = "kitchen/password_change_done.html"
 
 
 class DishTypeListView(LoginRequiredMixin, generic.ListView):

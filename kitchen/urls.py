@@ -23,6 +23,8 @@ from kitchen.views import (
     IngredientCreateView,
     IngredientUpdateView,
     IngredientDeleteView,
+    CookPasswordChangeView,
+    CookPasswordChangeDoneView
 )
 
 
@@ -86,5 +88,15 @@ urlpatterns = [
         "ingredients/<int:pk>/delete/",
         IngredientDeleteView.as_view(),
         name="ingredient-delete",
+    ),
+    path(
+        "cooks/<int:pk>/password_change/",
+        CookPasswordChangeView.as_view(),
+        name="cook-password-change"
+    ),
+    path(
+        "cooks/<int:pk>/password_change/done/",
+        CookPasswordChangeDoneView.as_view(),
+        name="cook-password-change-done"
     ),
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
