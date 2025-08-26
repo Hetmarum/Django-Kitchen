@@ -14,7 +14,7 @@ from kitchen.forms import (
     CookSearchForm,
 )
 from kitchen.models import Cook, Dish, DishType, Ingredient
-from kitchen.utils import ConfirmDeleteMixin
+from kitchen.utils import ConfirmDeleteMixin, FormTemplateMixin
 
 
 class IndexView(LoginRequiredMixin, TemplateView):
@@ -71,7 +71,11 @@ class CookDetailView(LoginRequiredMixin, generic.DetailView):
     model = Cook
 
 
-class CookCreateView(LoginRequiredMixin, generic.CreateView):
+class CookCreateView(
+    LoginRequiredMixin,
+    FormTemplateMixin,
+    generic.CreateView
+):
     model = Cook
     form_class = CookCreationForm
 
@@ -88,7 +92,11 @@ class CookCreateView(LoginRequiredMixin, generic.CreateView):
         )
 
 
-class CookUpdateView(LoginRequiredMixin, generic.UpdateView):
+class CookUpdateView(
+    LoginRequiredMixin,
+    FormTemplateMixin,
+    generic.UpdateView
+):
     model = Cook
     fields = [
         "username",
@@ -99,7 +107,6 @@ class CookUpdateView(LoginRequiredMixin, generic.UpdateView):
         "is_active",
         "is_staff",
     ]
-    template_name = "kitchen/cook_form.html"
 
     def get_form(self, form_class=None):
         form = super().get_form(form_class)
@@ -175,18 +182,24 @@ class DishTypeListView(LoginRequiredMixin, generic.ListView):
     paginate_by = 10
 
 
-class DishTypeCreateView(LoginRequiredMixin, generic.CreateView):
+class DishTypeCreateView(
+    LoginRequiredMixin,
+    FormTemplateMixin,
+    generic.CreateView
+):
     model = DishType
     fields = "__all__"
     success_url = reverse_lazy("kitchen:dish_type-list")
-    template_name = "kitchen/dish_type_form.html"
 
 
-class DishTypeUpdateView(LoginRequiredMixin, generic.UpdateView):
+class DishTypeUpdateView(
+    LoginRequiredMixin,
+    FormTemplateMixin,
+    generic.UpdateView
+):
     model = DishType
     fields = "__all__"
     success_url = reverse_lazy("kitchen:dish_type-list")
-    template_name = "kitchen/dish_type_form.html"
 
 
 class DishTypeDeleteView(
@@ -242,14 +255,38 @@ class DishDetailView(LoginRequiredMixin, generic.DetailView):
     model = Dish
 
 
-class DishCreateView(LoginRequiredMixin, generic.CreateView):
-    model = Dish
-    fields = "__all__"
-
-
-class DishUpdateView(LoginRequiredMixin, generic.UpdateView):
+class DishCreateView(
+    LoginRequiredMixin,
+    FormTemplateMixin,
+    generic.CreateView
+):
     model = Dish
     form_class = DishForm
+    multipart = True
+    extra_scripts = """
+        <script>
+            $("#id_dish_type").select2();
+            $("#id_cooks").select2();
+            $("#id_ingredients").select2();
+        </script>
+    """
+
+
+class DishUpdateView(
+    LoginRequiredMixin,
+    FormTemplateMixin,
+    generic.UpdateView
+):
+    model = Dish
+    form_class = DishForm
+    multipart = True
+    extra_scripts = """
+        <script>
+            $("#id_dish_type").select2();
+            $("#id_cooks").select2();
+            $("#id_ingredients").select2();
+        </script>
+    """
 
 
 class DishDeleteView(
@@ -284,18 +321,24 @@ class IngredientListView(LoginRequiredMixin, generic.ListView):
         return queryset
 
 
-class IngredientCreateView(LoginRequiredMixin, generic.CreateView):
+class IngredientCreateView(
+    LoginRequiredMixin,
+    FormTemplateMixin,
+    generic.CreateView
+):
     model = Ingredient
     fields = "__all__"
     success_url = reverse_lazy("kitchen:ingredient-list")
-    template_name = "kitchen/ingredient_type_form.html"
 
 
-class IngredientUpdateView(LoginRequiredMixin, generic.UpdateView):
+class IngredientUpdateView(
+    LoginRequiredMixin,
+    FormTemplateMixin,
+    generic.UpdateView
+):
     model = Ingredient
     fields = "__all__"
     success_url = reverse_lazy("kitchen:ingredient-list")
-    template_name = "kitchen/ingredient_type_form.html"
 
 
 class IngredientDeleteView(

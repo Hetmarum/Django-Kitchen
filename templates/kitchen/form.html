@@ -2,8 +2,11 @@
 {% load crispy_forms_filters %}
 
 {% block content %}
-  <h1>{{ object|yesno:"Update,Create" }} Dish</h1>
-  <form action="" method="post" enctype="multipart/form-data" novalidate>
+  <h1>{{ object|yesno:"Update,Create" }} {{ object_name|default:"Item" }}</h1>
+
+  <form action="" method="post"
+        {% if multipart %}enctype="multipart/form-data"{% endif %}
+        novalidate>
     {% csrf_token %}
     {{ form|crispy }}
     <input class="btn btn-primary" type="submit" value="Submit">
@@ -11,9 +14,5 @@
 {% endblock %}
 
 {% block scripts %}
-  <script>
-    $("#id_dish_type").select2();
-    $("#id_cooks").select2();
-    $("#id_ingredients").select2();
-  </script>
+  {{ extra_scripts|safe }}
 {% endblock %}

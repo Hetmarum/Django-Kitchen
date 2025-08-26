@@ -32,3 +32,19 @@ class ConfirmDeleteMixin(ContextMixin):
             "HTTP_REFERER", self.get_success_url()
         )
         return context
+
+
+class FormTemplateMixin(ContextMixin):
+    template_name = "kitchen/form.html"
+    object_name = None
+    multipart = False
+    extra_scripts = ""
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["object_name"] = (
+            self.object_name or self.model._meta.verbose_name.title()
+        )
+        context["multipart"] = self.multipart
+        context["extra_scripts"] = self.extra_scripts
+        return context
