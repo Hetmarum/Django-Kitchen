@@ -12,7 +12,7 @@
   <br>
   <h1>
     Cook List
-    {% if request.user.is_superuser %}
+    {% if request.user.is_staff %}
       <a class="btn btn-outline-primary" style="float: right" href="{% url 'kitchen:cook-create' %}">Add cook</a>
     {% endif %}
   </h1>
@@ -43,7 +43,7 @@
             <th>Full Name</th>
             <th>Username</th>
             <th>Experience Years</th>
-            {% if request.user.is_superuser %}
+            {% if request.user.is_staff %}
               <th>Actions</th>
             {% endif %}
           </tr>
@@ -57,7 +57,7 @@
               <td>{{ cook.first_name }} {{ cook.last_name }}</td>
               <td>{{ cook.username }}</td>
               <td>{{ cook.years_of_experience }}</td>
-              {% if request.user.is_superuser %}
+              {% if request.user.is_staff %}
                 <td>
                   <a class="btn btn-sm btn-outline-primary" href="{% url 'kitchen:cook-update' cook.id %}">Edit</a>
                   <a class="btn btn-sm btn-outline-danger" href="{% url 'kitchen:cook-delete' cook.id %}">Delete</a>

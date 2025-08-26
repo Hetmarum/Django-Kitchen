@@ -82,6 +82,7 @@ class CookUpdateView(LoginRequiredMixin, generic.UpdateView):
         "email",
         "years_of_experience",
         "is_active",
+        "is_staff",
     ]
     template_name = "kitchen/cook_form.html"
 

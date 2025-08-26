@@ -12,6 +12,7 @@ class CookCreationForm(UserCreationForm):
             "first_name",
             "last_name",
             "years_of_experience",
+            "is_staff",
         )
 
 
