@@ -153,7 +153,9 @@ class CookPasswordChangeView(LoginRequiredMixin, PasswordChangeView):
 
     def dispatch(self, request, *args, **kwargs):
         if request.user.pk != kwargs["pk"] and not request.user.is_superuser:
-            raise PermissionDenied("You cannot change another cook's password.")
+            raise PermissionDenied(
+                "You cannot change another cook's password."
+            )
         return super().dispatch(request, *args, **kwargs)
 
     def get_context_data(self, **kwargs):
