@@ -1,6 +1,7 @@
 from io import BytesIO
 from PIL import Image
 from django.core.files.base import ContentFile
+from django.views.generic.base import ContextMixin
 
 
 def resize_image(image_field, size=(400, 200), quality=80):
@@ -16,3 +17,14 @@ def resize_image(image_field, size=(400, 200), quality=80):
     buffer = BytesIO()
     img.save(buffer, format="JPEG", quality=quality, optimize=True)
     return ContentFile(buffer.getvalue())
+
+
+class ConfirmDeleteMixin(ContextMixin):
+    template_name = "confirm_delete.html"
+    object_name = None
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["object_name"] = self.object_name or self.model._meta.verbose_name.title()
+        context["previous_url"] = self.request.META.get("HTTP_REFERER", self.get_success_url())
+        return context

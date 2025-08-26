@@ -14,6 +14,7 @@ from kitchen.forms import (
     CookSearchForm,
 )
 from kitchen.models import Cook, Dish, DishType, Ingredient
+from kitchen.utils import ConfirmDeleteMixin
 
 
 class IndexView(LoginRequiredMixin, TemplateView):
@@ -119,7 +120,7 @@ class CookUpdateView(LoginRequiredMixin, generic.UpdateView):
         )
 
 
-class CookDeleteView(LoginRequiredMixin, generic.DeleteView):
+class CookDeleteView(LoginRequiredMixin, generic.DeleteView, ConfirmDeleteMixin):
     model = Cook
     template_name = "kitchen/confirm_delete.html"
     success_url = reverse_lazy("kitchen:cook-list")
@@ -134,12 +135,6 @@ class CookDeleteView(LoginRequiredMixin, generic.DeleteView):
             raise PermissionDenied("You cannot delete your own account.")
 
         return user
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context["object_name"] = "Cook"
-        context["previous_url"] = self.request.META.get("HTTP_REFERER")
-        return context
 
 
 class CookPasswordChangeView(LoginRequiredMixin, PasswordChangeView):
@@ -190,16 +185,10 @@ class DishTypeUpdateView(LoginRequiredMixin, generic.UpdateView):
     template_name = "kitchen/dish_type_form.html"
 
 
-class DishTypeDeleteView(LoginRequiredMixin, generic.DeleteView):
+class DishTypeDeleteView(LoginRequiredMixin, generic.DeleteView, ConfirmDeleteMixin):
     model = DishType
     template_name = "kitchen/confirm_delete.html"
     success_url = reverse_lazy("kitchen:dish_type-list")
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context["object_name"] = "Dish Type"
-        context["previous_url"] = self.request.META.get("HTTP_REFERER")
-        return context
 
 
 class DishListView(LoginRequiredMixin, generic.ListView):
@@ -255,16 +244,10 @@ class DishUpdateView(LoginRequiredMixin, generic.UpdateView):
     form_class = DishForm
 
 
-class DishDeleteView(LoginRequiredMixin, generic.DeleteView):
+class DishDeleteView(LoginRequiredMixin, generic.DeleteView, ConfirmDeleteMixin):
     model = Dish
     template_name = "kitchen/confirm_delete.html"
     success_url = reverse_lazy("kitchen:dish-list")
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context["object_name"] = "Dish"
-        context["previous_url"] = self.request.META.get("HTTP_REFERER")
-        return context
 
 
 class IngredientListView(LoginRequiredMixin, generic.ListView):
@@ -303,13 +286,7 @@ class IngredientUpdateView(LoginRequiredMixin, generic.UpdateView):
     template_name = "kitchen/ingredient_type_form.html"
 
 
-class IngredientDeleteView(LoginRequiredMixin, generic.DeleteView):
+class IngredientDeleteView(LoginRequiredMixin, generic.DeleteView, ConfirmDeleteMixin):
     model = Ingredient
     template_name = "kitchen/confirm_delete.html"
     success_url = reverse_lazy("kitchen:ingredient-list")
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context["object_name"] = "Ingredient"
-        context["previous_url"] = self.request.META.get("HTTP_REFERER")
-        return context
