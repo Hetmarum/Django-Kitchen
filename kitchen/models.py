@@ -1,5 +1,6 @@
 from django.contrib.auth.models import AbstractUser
 from django.conf import settings
+from django.core.exceptions import ValidationError
 from django.core.files.base import ContentFile
 from django.core.validators import MinValueValidator
 from django.db import models
@@ -74,7 +75,13 @@ class Dish(models.Model):
     def get_absolute_url(self):
         return reverse("kitchen:dish-detail", args=[str(self.id)])
 
+    def clean(self):
+        if self.price < 0:
+            raise ValidationError({"price": "Price cannot be negative."})
+
     def save(self, *args, **kwargs):
+        self.full_clean()
+
         if self.picture and not kwargs.get("raw", False):
             try:
                 old = Dish.objects.get(pk=self.pk)
