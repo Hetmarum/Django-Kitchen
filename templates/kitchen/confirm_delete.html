@@ -1,4 +1,9 @@
 {% extends "base.html" %}
+{% block title %}
+    {% if object %}
+    Delete {{ object_name }}
+  {% endif %}
+{% endblock %}
 
 {% block content %}
   <h1>Delete {{ object_name }}</h1>
