@@ -1,10 +1,12 @@
 # django-kitchen
 ---
-# user fo acess
+# site link
+  * https://django-kitchen-3ab2.onrender.com/
+
+# user to test features
 
   * user: user
   * password: user1234
-
 
 
 
