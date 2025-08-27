@@ -130,7 +130,7 @@ CRISPY_TEMPLATE_PACK = "bootstrap4"
 
 STORAGES = {
     "default": {
-        "BACKEND": "base.storages.WindowsCompatibleDropboxStorage",
+        "BACKEND": "storages.backends.dropbox.DropboxStorage",
         "OPTIONS": {
             "oauth2_access_token": os.environ["OAUTH2_ACCESS_TOKEN"],
             "oauth2_refresh_token": os.environ["OAUTH2_REFRESH_TOKEN"],
