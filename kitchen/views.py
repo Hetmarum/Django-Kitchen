@@ -5,6 +5,7 @@ from django.db.models import Q
 from django.urls import reverse_lazy
 from django.views import generic
 from django.views.generic import TemplateView
+from django.contrib.auth.mixins import UserPassesTestMixin
 
 from kitchen.forms import (
     CookCreationForm,
@@ -73,11 +74,18 @@ class CookDetailView(LoginRequiredMixin, generic.DetailView):
 
 class CookCreateView(
     LoginRequiredMixin,
+    UserPassesTestMixin,
     FormTemplateMixin,
     generic.CreateView
 ):
     model = Cook
     form_class = CookCreationForm
+
+    def test_func(self):
+        return self.request.user.is_superuser or self.request.user.is_staff
+
+    def handle_no_permission(self):
+        raise PermissionDenied("You are not allowed to create cooks.")
 
     def get_form(self, form_class=None):
         form = super().get_form(form_class)
@@ -94,6 +102,7 @@ class CookCreateView(
 
 class CookUpdateView(
     LoginRequiredMixin,
+    UserPassesTestMixin,
     FormTemplateMixin,
     generic.UpdateView
 ):
@@ -107,6 +116,15 @@ class CookUpdateView(
         "is_active",
         "is_staff",
     ]
+
+    def test_func(self):
+
+        if self.request.user.is_superuser or self.request.user.is_staff:
+            return True
+        return self.get_object() == self.request.user
+
+    def handle_no_permission(self):
+        raise PermissionDenied("You cannot update this cook.")
 
     def get_form(self, form_class=None):
         form = super().get_form(form_class)
@@ -129,12 +147,19 @@ class CookUpdateView(
 
 class CookDeleteView(
     LoginRequiredMixin,
+    UserPassesTestMixin,
     generic.DeleteView,
     ConfirmDeleteMixin
 ):
     model = Cook
     template_name = "kitchen/confirm_delete.html"
     success_url = reverse_lazy("kitchen:cook-list")
+
+    def test_func(self):
+        return self.request.user.is_superuser or self.request.user.is_staff
+
+    def handle_no_permission(self):
+        raise PermissionDenied("You are not allowed to delete cooks.")
 
     def get_object(self, queryset=None):
         user = super().get_object(queryset)
@@ -184,6 +209,7 @@ class DishTypeListView(LoginRequiredMixin, generic.ListView):
 
 class DishTypeCreateView(
     LoginRequiredMixin,
+    UserPassesTestMixin,
     FormTemplateMixin,
     generic.CreateView
 ):
@@ -191,9 +217,16 @@ class DishTypeCreateView(
     fields = "__all__"
     success_url = reverse_lazy("kitchen:dish_type-list")
 
+    def test_func(self):
+        return self.request.user.is_superuser or self.request.user.is_staff
+
+    def handle_no_permission(self):
+        raise PermissionDenied("You are not allowed to create cooks.")
+
 
 class DishTypeUpdateView(
     LoginRequiredMixin,
+    UserPassesTestMixin,
     FormTemplateMixin,
     generic.UpdateView
 ):
@@ -201,15 +234,28 @@ class DishTypeUpdateView(
     fields = "__all__"
     success_url = reverse_lazy("kitchen:dish_type-list")
 
+    def test_func(self):
+        return self.request.user.is_superuser or self.request.user.is_staff
+
+    def handle_no_permission(self):
+        raise PermissionDenied("You cannot update dish types.")
+
 
 class DishTypeDeleteView(
     LoginRequiredMixin,
+    UserPassesTestMixin,
     generic.DeleteView,
     ConfirmDeleteMixin
 ):
     model = DishType
     template_name = "kitchen/confirm_delete.html"
     success_url = reverse_lazy("kitchen:dish_type-list")
+
+    def test_func(self):
+        return self.request.user.is_superuser or self.request.user.is_staff
+
+    def handle_no_permission(self):
+        raise PermissionDenied("You are not allowed to delete dish types.")
 
 
 class DishListView(LoginRequiredMixin, generic.ListView):
@@ -291,12 +337,19 @@ class DishUpdateView(
 
 class DishDeleteView(
     LoginRequiredMixin,
+    UserPassesTestMixin,
     generic.DeleteView,
     ConfirmDeleteMixin
 ):
     model = Dish
     template_name = "kitchen/confirm_delete.html"
     success_url = reverse_lazy("kitchen:dish-list")
+
+    def test_func(self):
+        return self.request.user.is_superuser or self.request.user.is_staff
+
+    def handle_no_permission(self):
+        raise PermissionDenied("You are not allowed to delete dishes.")
 
 
 class IngredientListView(LoginRequiredMixin, generic.ListView):
