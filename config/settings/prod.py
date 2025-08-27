@@ -14,6 +14,8 @@ if RENDER_EXTERNAL_HOSTNAME:
 # Database
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases
 
+STORAGES["default"]["BACKEND"]="storages.backends.dropbox.DropboxStorage"
+
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.postgresql",
