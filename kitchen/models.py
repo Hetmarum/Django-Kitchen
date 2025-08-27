@@ -1,6 +1,7 @@
 from django.contrib.auth.models import AbstractUser
 from django.conf import settings
 from django.core.files.base import ContentFile
+from django.core.validators import MinValueValidator
 from django.db import models
 from django.urls import reverse
 
@@ -47,7 +48,11 @@ def get_default_dish_type():
 class Dish(models.Model):
     name = models.CharField(max_length=63, unique=True)
     description = models.TextField(blank=True)
-    price = models.DecimalField(decimal_places=2, max_digits=10)
+    price = models.DecimalField(
+        decimal_places=2,
+        max_digits=10,
+        validators=[MinValueValidator(0.01)]
+    )
     dish_type = models.ForeignKey(
         DishType, on_delete=models.SET_DEFAULT,
         default=get_default_dish_type,
