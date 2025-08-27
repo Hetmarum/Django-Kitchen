@@ -1,9 +1,9 @@
 .idea/
 .venv/
 __pycache__/
-staticfiles/
 migrations/
 node_modules
 .env
 *.sqlite3
 *.flake8
+dev-requirements.txt
