@@ -1,6 +1,7 @@
 .idea/
 .venv/
 __pycache__/
+staticfiles/
 migrations/
 node_modules
 .env
