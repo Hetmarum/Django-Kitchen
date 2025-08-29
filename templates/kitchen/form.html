@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% block title %}
+    {% if object %}
+    Update {{ object_name }}
+  {% else %}
+    Create {{ object_name }}
+  {% endif %}
+{% endblock %}
+{% load crispy_forms_filters %}
+
+{% block content %}
+  <h1>{{ object|yesno:"Update,Create" }} {{ object_name|default:"Item" }}</h1>
+
+  <form action="" method="post"
+        {% if multipart %}enctype="multipart/form-data"{% endif %}
+        novalidate>
+    {% csrf_token %}
+    {{ form|crispy }}
+    <input class="btn btn-primary" type="submit" value="Submit">
+  </form>
+{% endblock %}
+
+{% block scripts %}
+  {{ extra_scripts|safe }}
+{% endblock %}
