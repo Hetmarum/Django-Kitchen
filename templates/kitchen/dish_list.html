@@ -14,12 +14,12 @@
       {{ search_form|crispy }}
       <select name="order_by" class="form-control ml-2">
         <option value="">-- Sort by --</option>
-        <option value="name_asc" {% if current_order == "name_asc" %}selected{% endif %}>Name ↑</option>
-        <option value="name_desc" {% if current_order == "name_desc" %}selected{% endif %}>Name ↓</option>
-        <option value="price_asc" {% if current_order == "price_asc" %}selected{% endif %}>Price ↑</option>
-        <option value="price_desc" {% if current_order == "price_desc" %}selected{% endif %}>Price ↓</option>
-        <option value="dish_type_asc" {% if current_order == "dish_type_asc" %}selected{% endif %}>Dish Type ↑</option>
-        <option value="dish_type_desc" {% if current_order == "dish_type_desc" %}selected{% endif %}>Dish Type ↓</option>
+        <option value="name" {% if current_order == "name" %}selected{% endif %}>Name ↑</option>
+        <option value="-name" {% if current_order == "-name" %}selected{% endif %}>Name ↓</option>
+        <option value="price" {% if current_order == "price" %}selected{% endif %}>Price ↑</option>
+        <option value="-price" {% if current_order == "-price" %}selected{% endif %}>Price ↓</option>
+        <option value="dish_type" {% if current_order == "dish_type" %}selected{% endif %}>Dish Type ↑</option>
+        <option value="-dish_type" {% if current_order == "-dish_type" %}selected{% endif %}>Dish Type ↓</option>
       </select>
       <button type="submit" class="btn btn-outline-dark ml-2">Search</button>
     </form>
