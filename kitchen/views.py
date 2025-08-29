@@ -56,13 +56,13 @@ class CookListView(LoginRequiredMixin, generic.ListView):
 
         order_by = self.request.GET.get("order_by")
         if order_by:
-            if order_by == "full_name_asc":
+            if order_by == "full_name":
                 queryset = queryset.order_by("first_name", "last_name")
-            elif order_by == "full_name_desc":
+            elif order_by == "-full_name":
                 queryset = queryset.order_by("-first_name", "-last_name")
-            elif order_by == "experience_asc":
+            elif order_by == "experience":
                 queryset = queryset.order_by("years_of_experience")
-            elif order_by == "experience_desc":
+            elif order_by == "-experience":
                 queryset = queryset.order_by("-years_of_experience")
 
         return queryset
@@ -70,6 +70,10 @@ class CookListView(LoginRequiredMixin, generic.ListView):
 
 class CookDetailView(LoginRequiredMixin, generic.DetailView):
     model = Cook
+    queryset = (
+        Cook.objects
+        .prefetch_related("dishes__dish_type", "dishes__ingredients")
+    )
 
 
 class CookCreateView(
@@ -96,7 +100,8 @@ class CookCreateView(
 
     def get_success_url(self):
         return reverse_lazy(
-            "kitchen:cook-detail", kwargs={"pk": self.object.pk}
+            "kitchen:cook-detail",
+            kwargs={"pk": self.object.pk}
         )
 
 
@@ -141,7 +146,8 @@ class CookUpdateView(
 
     def get_success_url(self):
         return reverse_lazy(
-            "kitchen:cook-detail", kwargs={"pk": self.object.pk}
+            "kitchen:cook-detail",
+            kwargs={"pk": self.object.pk}
         )
 
 
@@ -281,17 +287,17 @@ class DishListView(LoginRequiredMixin, generic.ListView):
 
         order_by = self.request.GET.get("order_by")
         if order_by:
-            if order_by == "dish_type_asc":
+            if order_by == "dish_type":
                 queryset = queryset.order_by("dish_type__name", "name")
-            elif order_by == "dish_type_desc":
+            elif order_by == "-dish_type":
                 queryset = queryset.order_by("-dish_type__name", "name")
-            elif order_by == "name_asc":
+            elif order_by == "name":
                 queryset = queryset.order_by("name")
-            elif order_by == "name_desc":
+            elif order_by == "-name":
                 queryset = queryset.order_by("-name")
-            elif order_by == "price_asc":
+            elif order_by == "price":
                 queryset = queryset.order_by("price")
-            elif order_by == "price_desc":
+            elif order_by == "-price":
                 queryset = queryset.order_by("-price")
 
         return queryset
@@ -299,6 +305,11 @@ class DishListView(LoginRequiredMixin, generic.ListView):
 
 class DishDetailView(LoginRequiredMixin, generic.DetailView):
     model = Dish
+    queryset = (
+        Dish.objects
+        .select_related("dish_type")
+        .prefetch_related("cooks", "ingredients")
+    )
 
 
 class DishCreateView(
