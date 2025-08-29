@@ -180,7 +180,7 @@ class CookDeleteView(
 
 
 class CookPasswordChangeView(LoginRequiredMixin, PasswordChangeView):
-    template_name = "kitchen/password_change_form.html"
+    template_name = "registration/password_change_form.html"
     success_url = reverse_lazy("kitchen:cook-password-change-done")
 
     def get_success_url(self):
@@ -203,7 +203,7 @@ class CookPasswordChangeView(LoginRequiredMixin, PasswordChangeView):
 
 
 class CookPasswordChangeDoneView(LoginRequiredMixin, TemplateView):
-    template_name = "kitchen/password_change_done.html"
+    template_name = "registration/password_change_done.html"
 
 
 class DishTypeListView(LoginRequiredMixin, generic.ListView):
