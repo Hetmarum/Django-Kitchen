@@ -18,8 +18,14 @@
         <option value="-name" {% if current_order == "-name" %}selected{% endif %}>Name ↓</option>
         <option value="price" {% if current_order == "price" %}selected{% endif %}>Price ↑</option>
         <option value="-price" {% if current_order == "-price" %}selected{% endif %}>Price ↓</option>
-        <option value="dish_type" {% if current_order == "dish_type" %}selected{% endif %}>Dish Type ↑</option>
-        <option value="-dish_type" {% if current_order == "-dish_type" %}selected{% endif %}>Dish Type ↓</option>
+        <option value="dish_type__name,name"
+                {% if current_order == "dish_type__name,name" %}selected{% endif %}>
+          Dish Type ↑
+        </option>
+        <option value="-dish_type__name,name"
+                {% if current_order == "-dish_type__name,name" %}selected{% endif %}>
+          Dish Type ↓
+        </option>
       </select>
       <button type="submit" class="btn btn-outline-dark ml-2">Search</button>
     </form>

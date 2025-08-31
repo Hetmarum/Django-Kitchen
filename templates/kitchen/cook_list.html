@@ -26,10 +26,22 @@
     </style>
     <select name="order_by" class="form-control ml-2">
       <option value="">-- Sort by --</option>
-      <option value="full_name" {% if current_order == "full_name" %}selected{% endif %}>Full Name ↑</option>
-      <option value="-full_name" {% if current_order == "-full_name" %}selected{% endif %}>Full Name ↓</option>
-      <option value="experience" {% if current_order == "experience" %}selected{% endif %}>Experience Years ↑</option>
-      <option value="-experience" {% if current_order == "-experience" %}selected{% endif %}>Experience Years ↓</option>
+      <option value="first_name,last_name"
+              {% if current_order == "first_name,last_name" %}selected{% endif %}>
+        Full Name ↑
+      </option>
+      <option value="-first_name,-last_name"
+              {% if current_order == "-first_name,-last_name" %}selected{% endif %}>
+        Full Name ↓
+      </option>
+      <option value="years_of_experience"
+              {% if current_order == "years_of_experience" %}selected{% endif %}>
+        Experience Years ↑
+      </option>
+      <option value="-years_of_experience"
+              {% if current_order == "-years_of_experience" %}selected{% endif %}>
+        Experience Years ↓
+      </option>
     </select>
     <button type="submit" class="btn btn-outline-dark ml-2">Search</button>
   </form>

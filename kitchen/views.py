@@ -56,14 +56,11 @@ class CookListView(LoginRequiredMixin, generic.ListView):
 
         order_by = self.request.GET.get("order_by")
         if order_by:
-            if order_by == "full_name":
-                queryset = queryset.order_by("first_name", "last_name")
-            elif order_by == "-full_name":
-                queryset = queryset.order_by("-first_name", "-last_name")
-            elif order_by == "experience":
-                queryset = queryset.order_by("years_of_experience")
-            elif order_by == "-experience":
-                queryset = queryset.order_by("-years_of_experience")
+            if "," in order_by:
+                fields = [field.strip() for field in order_by.split(",")]
+                queryset = queryset.order_by(*fields)
+            else:
+                queryset = queryset.order_by(order_by)
 
         return queryset
 
@@ -287,18 +284,11 @@ class DishListView(LoginRequiredMixin, generic.ListView):
 
         order_by = self.request.GET.get("order_by")
         if order_by:
-            if order_by == "dish_type":
-                queryset = queryset.order_by("dish_type__name", "name")
-            elif order_by == "-dish_type":
-                queryset = queryset.order_by("-dish_type__name", "name")
-            elif order_by == "name":
-                queryset = queryset.order_by("name")
-            elif order_by == "-name":
-                queryset = queryset.order_by("-name")
-            elif order_by == "price":
-                queryset = queryset.order_by("price")
-            elif order_by == "-price":
-                queryset = queryset.order_by("-price")
+            if "," in order_by:
+                fields = [field.strip() for field in order_by.split(",")]
+                queryset = queryset.order_by(*fields)
+            else:
+                queryset = queryset.order_by(order_by)
 
         return queryset
 
