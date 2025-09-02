@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+{% block background %}bg-dish-types{% endblock %}
+{% block title %}Dish Type{% endblock %}
+
+{% block content %}
+<div class="container mt-4 p-4 rounded shadow"
+   style="
+   background-color: rgba(255, 255, 255, 0.85);
+   backdrop-filter: blur(8px);
+">
+  <br>
+  <h1>
+    Dish Type List
+    {% if request.user.is_staff %}
+      <a class="btn btn-outline-primary" style="float: right" href="{% url 'kitchen:dish_type-create' %}">Add new dish
+        type</a>
+    {% endif %}
+  </h1>
+  <br>
+  {% if dish_type_list %}
+    <div class="table-responsive mb-4">
+      <table class="table table-striped align-middle rounded shadow-sm overflow-hidden">
+        <thead class="table-dark">
+        <tr>
+          <th>ID</th>
+          <th>Name</th>
+          {% if request.user.is_staff %}
+            <th>Update</th>
+            <th>Delete</th>
+          {% endif %}
+        </tr>
+        </thead>
+        <tbody>
+        {% for dish_type in dish_type_list %}
+          <tr>
+            <td>{{ dish_type.id }}</td>
+            <td>{{ dish_type.name }}</td>
+            {% if request.user.is_staff %}
+              <td>
+                <a href="{% url 'kitchen:dish_type-update' pk=dish_type.id %}" class="btn btn-sm btn-outline-primary">Update</a>
+              </td>
+              <td>
+                <a href="{% url 'kitchen:dish_type-delete' pk=dish_type.id %}" class="btn btn-sm btn-outline-danger">Delete</a>
+              </td>
+            {% endif %}
+          </tr>
+        {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  {% else %}
+    <div class="alert alert-info text-center">There are no types of dishes in the kitchen.</div>
+  {% endif %}
+</div>
+{% endblock %}

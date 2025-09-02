@@ -1,0 +1,57 @@
+{% extends "base.html" %}
+{% block background %}bg-home{% endblock %}
+{% block title %}Kitchen{% endblock %}
+
+{% block content %}
+
+  <div class="position-relative d-flex align-items-center justify-content-center text-center text-white"
+       style="background: url('https://images.unsplash.com/photo-1514516430037-7a3a0b6a2f3d?auto=format&fit=crop&w=1600&q=80') center/cover no-repeat; min-height: 60vh;">
+    <div class="p-5 shadow-lg"
+         style="
+           background-color: rgba(0, 0, 0, 0.35);
+           backdrop-filter: blur(10px);
+           border-radius: 20px;
+           max-width: 700px;
+         ">
+      <h1 class="display-3 fw-bold text-white">Kitchen</h1>
+      <p class="lead text-white">Overview of cooks, dishes, and dish types</p>
+    </div>
+  </div>
+
+  <div class="container my-5">
+    <div class="row text-center">
+
+      <div class="col-md-4 mb-4">
+        <div class="card shadow-sm border-0 rounded-3 text-white"
+             style="background-color: rgba(0,0,0,0.55); backdrop-filter: blur(6px);">
+          <div class="card-body py-5">
+            <h2 class="fw-bold">{{ num_cooks }}</h2>
+            <p class="mb-0">Cooks</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-4 mb-4">
+        <div class="card shadow-sm border-0 rounded-3 text-white"
+             style="background-color: rgba(0,0,0,0.55); backdrop-filter: blur(6px);">
+          <div class="card-body py-5">
+            <h2 class="fw-bold">{{ num_dishes }}</h2>
+            <p class="mb-0">Dishes</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-4 mb-4">
+        <div class="card shadow-sm border-0 rounded-3 text-white"
+             style="background-color: rgba(0,0,0,0.55); backdrop-filter: blur(6px);">
+          <div class="card-body py-5">
+            <h2 class="fw-bold">{{ num_dish_types }}</h2>
+            <p class="mb-0">Dish Types</p>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+{% endblock %}

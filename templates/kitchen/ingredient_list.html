@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+{% load crispy_forms_filters %}
+{% block background %}bg-ingredients{% endblock %}
+{% block title %}Ingredients{% endblock %}
+
+{% block content %}
+<div class="container mt-4 p-4 rounded shadow"
+   style="
+   background-color: rgba(255, 255, 255, 0.85);
+   backdrop-filter: blur(8px);
+">
+  <br>
+  <h1>Ingredient List <a class="btn btn-outline-primary" style="float: right"
+                         href="{% url 'kitchen:ingredient-create' %}">Add new ingredient</a></h1>
+  <br>
+  <form method="get" action="" class="form-inline">
+    {{ search_form|crispy }}
+    <button type="submit" class="btn btn-outline-dark ml-2">Search</button>
+  </form>
+  {% if ingredient_list %}
+    <div class="table-responsive mb-4">
+      <table class="table table-striped align-middle rounded shadow-sm overflow-hidden">
+        <thead class="table-dark">
+        <tr>
+          <th>ID</th>
+          <th>Name</th>
+          <th>Update</th>
+          <th>Delete</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for ingredient in ingredient_list %}
+          <tr>
+            <td>{{ ingredient.id }}</td>
+            <td>{{ ingredient.name }}</td>
+            <td>
+              <a href="{% url 'kitchen:ingredient-update' pk=ingredient.id %}" class="btn btn-sm btn-outline-primary">Update</a>
+            </td>
+            <td>
+              <a href="{% url 'kitchen:ingredient-delete' pk=ingredient.id %}" class="btn btn-sm btn-outline-danger">Delete</a>
+            </td>
+          </tr>
+        {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  {% else %}
+    <div class="alert alert-info text-center">There are no ingredients in the kitchen.</div>
+  {% endif %}
+</div>
+{% endblock %}

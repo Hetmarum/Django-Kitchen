@@ -1,0 +1,94 @@
+.bg-dishes {
+  background-image: url("../images/dish_list_background.jpg");
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+  min-height: 100vh;
+  width: 100%;
+}
+
+
+.bg-home {
+  background-image: url("../images/home_background.jpg");
+  background-size: cover;
+  background-position: center;
+  min-height: 100vh;
+}
+
+.bg-logged-out {
+  background-image: url("../images/logged_out_background.jpg");
+  background-size: cover;
+  background-position: center;
+  min-height: 100vh;
+}
+
+.bg-login {
+  background-image: url("../images/login.png");
+  background-size: cover;
+  background-position: center;
+  min-height: 100vh;
+}
+
+.bg-cooks {
+  background-image: url("../images/cooks_background.jpg");
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+  min-height: 100vh;
+  width: 100%;
+}
+
+.bg-dish-types {
+  background-image: url("../images/dish_types_background.png");
+  background-size: cover;
+  background-position: center;
+  min-height: 100vh;
+}
+
+.bg-ingredients {
+  background-image: url("../images/ingredients_background.png");
+  background-size: cover;
+  background-position: center;
+  min-height: 100vh;
+}
+
+
+/* .bg-cooks::before { */
+
+/*  content: ""; */
+
+/*  position: absolute; */
+
+/*  inset: 0; */
+
+/*  background: inherit; */
+
+/*  filter: blur(10px); */
+
+/*  transform: scale(1.05); */
+
+/*  z-index: -1; */
+
+/* } */
+
+body {
+  font-family: "Playwrite CA", cursive;
+  font-optical-sizing: auto;
+  font-weight: 400;
+  font-style: normal;
+}
+
+.sidebar-btn {
+  border: 1px solid rgb(0 0 0 / 10%);
+  border-radius: 10px;
+  transition: background-color 0.2s, transform 0.1s;
+}
+
+.sidebar-btn:hover {
+  background-color: rgb(230 230 230 / 90%);
+  transform: translateX(3px);
+}
+
+.sidebar-btn-danger:hover {
+  transform: translateX(3px);
+}

@@ -1,0 +1,63 @@
+{% extends "base.html" %}
+{% block background %}bg-dishes{% endblock %}
+{% block title %}{{ dish.name }}{% endblock %}
+
+{% block content %}
+<div class="container mt-4 p-4 rounded shadow"
+     style="
+     background-color: rgba(255, 255, 255, 0.85);
+     backdrop-filter: blur(8px);
+">
+  <h1>
+    Name: {{ dish.name }}
+  </h1>
+
+  <p><strong>Price:</strong> {{ dish.price }}$</p>
+  <p><strong>Dish Type:</strong> {{ dish.dish_type }}</p>
+  <p><strong>Description:</strong> {{ dish.description|default:"No description available" }}</p>
+
+  <div class="mb-3">
+    <strong>Ingredients:</strong>
+    {% if dish.ingredients.exists %}
+      {% for ingredient in dish.ingredients.all %}
+        <span class="badge bg-info text-dark me-1">{{ ingredient.name }}</span>
+      {% endfor %}
+    {% else %}
+      <span class="text-muted">No ingredients</span>
+    {% endif %}
+  </div>
+
+  {% if dish.picture %}
+    <div class="mb-3">
+      <strong>Picture:</strong>
+      <p><img src="{{ dish.picture.url }}" alt="{{ dish.name }}" class="img-fluid rounded" style="max-width:300px;"></p>
+    </div>
+  {% else %}
+    <p class="text-muted">No picture available</p>
+  {% endif %}
+
+  <div class="mt-4">
+    <h3>Cooks:</h3>
+    {% if dish.cooks.exists %}
+      {% for cook in dish.cooks.all %}
+        <div class="card mb-3 shadow-sm">
+          <div class="card-body">
+            <p><strong>Full Name:</strong> {{ cook.first_name }} {{ cook.last_name }}</p>
+            <p><strong>Years of Experience:</strong> {{ cook.years_of_experience }}</p>
+            <a href="{{ cook.get_absolute_url }}" class="btn btn-outline-info">View</a>
+          </div>
+        </div>
+      {% endfor %}
+    {% else %}
+      <div class="alert alert-info">No cooks assigned to this dish.</div>
+    {% endif %}
+  </div>
+
+  <div class="mt-3">
+    <a class="btn btn-outline-primary" href="{% url 'kitchen:dish-update' pk=dish.id %}">Update</a>
+    {% if request.user.is_staff %}
+      <a class="btn btn-outline-danger" href="{% url 'kitchen:dish-delete' pk=dish.id %}">Delete</a>
+    {% endif %}
+  </div>
+</div>
+{% endblock %}
