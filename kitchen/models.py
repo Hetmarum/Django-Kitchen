@@ -1,3 +1,5 @@
+from decimal import Decimal, ROUND_DOWN
+
 from django.contrib.auth.models import AbstractUser
 from django.conf import settings
 from django.core.exceptions import ValidationError
@@ -76,10 +78,14 @@ class Dish(models.Model):
         return reverse("kitchen:dish-detail", args=[str(self.id)])
 
     def clean(self):
-        if self.price < 0:
+        if self.price is not None and self.price < 0:
             raise ValidationError({"price": "Price cannot be negative."})
 
     def save(self, *args, **kwargs):
+        if self.price is not None:
+            self.price = Decimal(
+                self.price
+            ).quantize(Decimal("0.01"), rounding=ROUND_DOWN)
         self.full_clean()
 
         if self.picture and not kwargs.get("raw", False):

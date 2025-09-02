@@ -38,5 +38,5 @@ class AuthTests(TestCase):
         self.assertFalse(response.wsgi_request.user.is_authenticated)
         self.assertTemplateUsed(
             response,
-            "kitchen/registration/logged_out.html"
+            "registration/logged_out.html"
         )
