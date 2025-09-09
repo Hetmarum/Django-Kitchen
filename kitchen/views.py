@@ -179,8 +179,10 @@ class CookDeleteView(
         if user == self.request.user:
             raise PermissionDenied("You cannot delete your own account.")
 
-        return user
+        if user.is_staff and not self.request.user.is_superuser:
+            raise PermissionDenied("You cannot delete another admin account.")
 
+        return user
 
 
 class CookPasswordChangeView(LoginRequiredMixin, PasswordChangeView):
@@ -198,7 +200,9 @@ class CookPasswordChangeView(LoginRequiredMixin, PasswordChangeView):
 
         if request.user.is_staff:
             if self.target_user.is_superuser or self.target_user.is_staff:
-                raise PermissionDenied("You cannot change another admin's password.")
+                raise PermissionDenied(
+                    "You cannot change another admin's password."
+                )
             return super().dispatch(request, *args, **kwargs)
 
         raise PermissionDenied("You cannot change another cook's password.")
@@ -230,6 +234,7 @@ class CookPasswordChangeView(LoginRequiredMixin, PasswordChangeView):
         context["cook"] = self.target_user
         context["is_self"] = self.is_self
         return context
+
 
 class CookPasswordChangeDoneView(LoginRequiredMixin, TemplateView):
     template_name = "registration/password_change_done.html"
