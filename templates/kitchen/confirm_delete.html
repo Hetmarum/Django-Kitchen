@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% block title %}
+    {% if object %}
+    Delete {{ object_name }}
+  {% endif %}
+{% endblock %}
+
+{% block content %}
+  <h1>Delete {{ object_name }}</h1>
+
+  <p>Are you sure you want to delete the {{ object_name|lower }}: {{ object }}</p>
+  <form method="post">
+    {% csrf_token %}
+    <input type="submit" value="Yes, delete" class="btn btn-danger" />
+    <a href="{{ previous_url }}" class="btn btn-secondary">Cancel</a>
+  </form>
+{% endblock %}
