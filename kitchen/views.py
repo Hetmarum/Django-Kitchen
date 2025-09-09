@@ -1,11 +1,15 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.views import PasswordChangeView
+from django.contrib.auth import update_session_auth_hash
+from django.contrib.auth.forms import PasswordChangeForm, SetPasswordForm
 from django.core.exceptions import PermissionDenied
 from django.db.models import Q
 from django.urls import reverse_lazy
 from django.views import generic
 from django.views.generic import TemplateView
 from django.contrib.auth.mixins import UserPassesTestMixin
+from django.http import HttpResponseRedirect
+from django.shortcuts import get_object_or_404
 
 from kitchen.forms import (
     CookCreationForm,
@@ -90,8 +94,9 @@ class CookCreateView(
 
     def get_form(self, form_class=None):
         form = super().get_form(form_class)
-        if not (self.request.user.is_superuser or self.request.user.is_staff):
+        if not self.request.user.is_superuser:
             form.fields.pop("is_staff", None)
+            form.fields.pop("is_superuser", None)
             form.fields.pop("is_active", None)
         return form
 
@@ -130,8 +135,9 @@ class CookUpdateView(
 
     def get_form(self, form_class=None):
         form = super().get_form(form_class)
-        if not (self.request.user.is_superuser or self.request.user.is_staff):
+        if not self.request.user.is_superuser:
             form.fields.pop("is_staff", None)
+            form.fields.pop("is_superuser", None)
             form.fields.pop("is_active", None)
         return form
 
@@ -176,30 +182,54 @@ class CookDeleteView(
         return user
 
 
+
 class CookPasswordChangeView(LoginRequiredMixin, PasswordChangeView):
     template_name = "registration/password_change_form.html"
-    success_url = reverse_lazy("kitchen:cook-password-change-done")
+
+    def dispatch(self, request, *args, **kwargs):
+        self.target_user = get_object_or_404(Cook, pk=kwargs["pk"])
+        self.is_self = (request.user.pk == self.target_user.pk)
+
+        if self.is_self:
+            return super().dispatch(request, *args, **kwargs)
+
+        if request.user.is_superuser:
+            return super().dispatch(request, *args, **kwargs)
+
+        if request.user.is_staff:
+            if self.target_user.is_superuser or self.target_user.is_staff:
+                raise PermissionDenied("You cannot change another admin's password.")
+            return super().dispatch(request, *args, **kwargs)
+
+        raise PermissionDenied("You cannot change another cook's password.")
+
+    def get_form_class(self):
+        return PasswordChangeForm if self.is_self else SetPasswordForm
+
+    def get_form_kwargs(self):
+        kwargs = super().get_form_kwargs()
+        kwargs["user"] = self.target_user
+        return kwargs
+
+    def form_valid(self, form):
+        user = form.save()
+
+        if self.is_self:
+            update_session_auth_hash(self.request, user)
+
+        return HttpResponseRedirect(self.get_success_url())
 
     def get_success_url(self):
         return reverse_lazy(
             "kitchen:cook-password-change-done",
-            kwargs={"pk": self.request.user.pk}
+            kwargs={"pk": self.target_user.pk},
         )
-
-    def dispatch(self, request, *args, **kwargs):
-        if request.user.pk != kwargs["pk"] and not (
-            request.user.is_superuser or request.user.is_staff
-        ):
-            raise PermissionDenied(
-                "You cannot change another cook's password."
-            )
-        return super().dispatch(request, *args, **kwargs)
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context["cook"] = Cook.objects.get(pk=self.kwargs["pk"])
+        context["cook"] = self.target_user
+        context["is_self"] = self.is_self
         return context
-
 
 class CookPasswordChangeDoneView(LoginRequiredMixin, TemplateView):
     template_name = "registration/password_change_done.html"
